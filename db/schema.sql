@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS cocktail_db;
+
+CREATE DATABASE cocktail_db;
