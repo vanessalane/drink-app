@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `drink_app`.`Ingredient` ;
 
 CREATE TABLE IF NOT EXISTS `drink_app`.`Ingredient` (
   `ingredient_id` INT UNSIGNED NOT NULL,
-  `description` LONGTEXT NOT NULL,
+  `ingredient_name` LONGTEXT NOT NULL,
   PRIMARY KEY (`ingredient_id`))
 ENGINE = InnoDB;
 
@@ -41,9 +41,8 @@ CREATE TABLE IF NOT EXISTS `drink_app`.`Recipe` (
   `instructions` LONGTEXT NOT NULL,
   `user_id` VARCHAR(255) NOT NULL,
   `image_file_name` VARCHAR(255) NOT NULL,
-  `rating` DECIMAL(5) NULL,
+  `rating` DECIMAL(5) NOT NULL,
   PRIMARY KEY (`recipe_id`),
-  UNIQUE INDEX `recipe_name_UNIQUE` (`recipe_name` ASC) VISIBLE,
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
