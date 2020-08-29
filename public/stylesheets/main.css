@@ -1,5 +1,6 @@
 * {
     font-family: 'Alata', sans-serif;
+    text-transform: lowercase !important;
 }
 
 /* start materialize sticky footer */
@@ -24,9 +25,7 @@ nav {
 
 /* start hero styles */
 .hero-container {
-    height: 74vh;
-    background-image: url("../image/hero_background.svg");
-    background-size: contain;
+    height: 65vh;
 }
 
 .hero-content-container {
@@ -38,3 +37,19 @@ nav {
     margin: 10px auto 20px;
 }
 /* end hero styles */
+
+/* body content styles */
+.body-content {
+    margin: 8vh auto;
+}
+.card {
+    background-size: cover;
+    background-position: center;
+}
+a:hover{
+    opacity: 75%;
+}
+nav a:hover {
+    opacity: 100%;
+}
+/* end body content styles */
