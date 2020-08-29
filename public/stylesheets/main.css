@@ -54,10 +54,6 @@ nav {
     margin: auto;
 }
 
-.recipe-image-card {
-    height: 100%;
-}
-
 a:hover{
     opacity: 75%;
 }
