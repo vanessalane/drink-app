@@ -1,10 +1,10 @@
 const router = require('express').Router();
+const homeRoutes = require('./home-routes.js');
+const recipeRoutes = require('./recipe-routes.js');
+const userRoutes = require('./user-routes.js');
 
-router.get('/', (req, res) => {
-    res.render('homepage', {
-        hero_title: "the drink app",
-        hero_subtitle: "welcome"
-    });
-});
+router.use('/', homeRoutes);
+router.use('/recipe', recipeRoutes);
+router.use('/user', userRoutes);
 
 module.exports = router;

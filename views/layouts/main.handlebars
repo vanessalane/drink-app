@@ -20,10 +20,12 @@
   <div class="navbar-fixed">
   <nav class="white">
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo deep-orange-text text-darken-2 hide-on-med-and-down">drink app</a>
+      <a href="/" class="brand-logo deep-orange-text text-darken-2 hide-on-med-and-down">drink app</a>
       <a href="#" data-target="mobile-menu" class="sidenav-trigger grey-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="/recipes" class="grey-text text-darken-4">recipes</a></li>
+        {{#if nav_content_label }}
+        <li><a href="#body" class="grey-text text-darken-4">{{ nav_content_label }}</a></li>
+        {{/if}}
         <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
       </ul>
     </div>
@@ -32,7 +34,6 @@
 
   <ul class="sidenav white" id="mobile-menu">
     <li><a href-"/" class="grey-text text-darken-3">drink app</a></li>
-    <li><a href="/recipes" class="grey-text text-darken-3">recipes</a></li>
     <li><a href="/login" class="grey-text text-darken-3">login</a></li>
   </ul>
 
@@ -47,7 +48,7 @@
           </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" id="body">
       {{{ body }}}
     </div>
   </main>
