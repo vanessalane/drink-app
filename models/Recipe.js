@@ -19,13 +19,13 @@ Recipe.init(
             allowNull: false
         },
         user_id: {
-            type: DataTypes.TEXT,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            // add in once the user model exists 
-            // references: {
-            //     model: 'User',
-            //     key: 'user_id'
-            // }
+            // add in once the user model exists - Added!
+            references: {
+                model: 'User',
+                key: 'user_id'
+             }
         },
         image_file_name: {
             type: DataTypes.TEXT,
