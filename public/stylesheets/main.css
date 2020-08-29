@@ -1,0 +1,40 @@
+* {
+    font-family: 'Alata', sans-serif;
+}
+
+/* start materialize sticky footer */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+/* end materialize sticky footer */
+
+
+/* start nav bar styles */
+nav {
+    padding-left: 16px;
+}
+/* end nav bar styles */
+
+
+/* start hero styles */
+.hero-container {
+    height: 74vh;
+    background-image: url("../image/hero_background.svg");
+    background-size: contain;
+}
+
+.hero-content-container {
+    height: 50%;
+    width: 100%;
+}
+
+.hero-title {
+    margin: 10px auto 20px;
+}
+/* end hero styles */

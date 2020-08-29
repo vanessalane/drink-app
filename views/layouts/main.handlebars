@@ -5,29 +5,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drink App</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/stylesheets/main.css">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body>
-  <div class="wrapper">
-    <header>
-      <h1>
-        <a href="/">Drinks</a>
-      </h1>
-      <nav>
-        <a href="/login">login</a>
-      </nav>
-    </header>
-    <main>
-      Hello
-    </main>
-    <footer>
-      <a href="https://github.com/hanzul">Hani Ghaderi</a> 
-      <a href="https://github.com/Christian-Vavuris">Christian Vavuris</a>
-      <a href="https://github.com/vanessalane">Vanessa Lane</a>
+  <nav class="white">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo grey-text text-darken-3 hide-on-med-and-down">the drink app</a>
+      <a href="#" data-target="mobile-menu" class="sidenav-trigger grey-text text-darken-3"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/recipes" class="blue-text text-darken-3">recipes</a></li>
+        <li><a href="/login" class="blue-text text-darken-3">log in</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-menu">
+    <li><a href-"/" class="grey-text text-darken-3">the drink app</a></li>
+    <li><a href="/recipes" class="grey-text text-darken-3">recipes</a></li>
+    <li><a href="/login" class="grey-text text-darken-3">login</a></li>
+  </ul>
+
+  <main>
+    <div class="hero-container valign-wrapper">
+          <div class="row hero-content-container valign-wrapper white">
+            <div class="hero-content col l6 s12 offset-l3 hero-title">
+              <h1 class="amber-text text-darken-1 center-align">{{ hero_title }}</h1>
+              <h3 class="grey-text text-darken-3 center-align">{{ hero_subtitle }}</h3>
+            </div>
+          </div>
+    </div>
+  <div class="divider"></div>
+
+    <div class="container">
+      {{{ body }}}
+    </div>
+  </main>
+
+  <footer class="page-footer orange lighten-5">
+    <div class="container">
+      <div class="row">
+        <div class="col l3 s12 offset-l2">
+          <h5 class="grey-text text-darken-4">Christian Vavuris</h5>
+          <ul>
+            <li><a class="grey-text text-darken-2" href="https://github.com/Christian-Vavuris" target="_blank">Christian-Vavuris</a></li>
+            <li><a class="grey-text text-darken-2" href="mailto:cvavuris@gmail.com" target="_blank">cvavuris@gmail.com</a></li>
+          </ul>
+        </div>
+
+        <div class="col l3 s12">
+          <h5 class="grey-text text-darken-4">Hani Ghaderi</h5>
+          <ul>
+            <li><a class="grey-text text-darken-2" href="https://github.com/hanzul" target="_blank">hanzul</a></li>
+            <li><a class="grey-text text-darken-2" href="mailto:hani.ghaderi@me.com" target="_blank">hani.ghaderi@me.com</a></li>
+          </ul>
+        </div>
+
+        <div class="col l3 s12">
+          <h5 class="grey-text text-darken-4">Vanessa Lane</h5>
+          <ul>
+            <li><a class="grey-text text-darken-2" href="https://github.com/vanessalane" target="_blank">vanessalane</a></li>
+            <li><a class="grey-text text-darken-2" href="mailto:vlane0593@gmail.com" target="_blank">vlane0593@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright grey-text text-darken-3 center-align">
+      <div class="container">
       © 2020
-    </footer>
-  </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });
+  </script>
 </body>
 
 </html>
