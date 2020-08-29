@@ -1,4 +1,4 @@
-# Cocktails
+# Drink App
 A Node app for sharing cocktail recipes, built by Hani Ghaderi, Christian Vavuris, and Vanessa Lane
 
 ## User Story
