@@ -37,19 +37,19 @@ Recipe.init(
         },
     },
     {
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'Recipe'
+    },
+    {
         indexes: [
             {
                 unique: true,
                 fields: ['recipe_name', 'user_id']
             }
         ]
-    },
-    {
-        sequelize,
-        timestamps: false,
-        freezeTableName: true,
-        underscored: true,
-        modelName: 'Recipe'
     }
 );
 
