@@ -4,6 +4,10 @@
     scroll-behavior: smooth;
 }
 
+h1, h2, h3, h4, h5 {
+    margin: .656rem 0;
+}
+
 /* start materialize sticky footer */
 body {
     display: flex;
