@@ -1,6 +1,7 @@
 * {
     font-family: 'Alata', sans-serif;
     text-transform: lowercase !important;
+    scroll-behavior: smooth;
 }
 
 /* start materialize sticky footer */
