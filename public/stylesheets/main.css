@@ -47,6 +47,13 @@ nav {
     background-size: cover;
     background-position: center;
 }
+
+.recipe-image {
+    background-size: cover;
+    background-position: center;
+    margin: auto;
+}
+
 a:hover{
     opacity: 75%;
 }
