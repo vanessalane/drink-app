@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-// GET /api/users
+// GET /api/users  WORKING
 router.get('/', (req, res) => {
     // Access our User model and fun .findAll() method
     User.findAll({
@@ -14,12 +14,12 @@ router.get('/', (req, res) => {
         });
 });
 
-// GET .api/users/1
-router.get('/:id', (req, res) => {
+// GET .api/users/1  WORKING
+router.get('/:user_id', (req, res) => {
     User.findOne({
         attributes: { exclude: ['password'] },
         where: {
-            id: req.params.id
+            user_id: req.params.user_id
             
         }
     })
@@ -36,7 +36,15 @@ router.get('/:id', (req, res) => {
     });
 });
 
-//POST /api/users
+//POST /api/user
+// This route adds a new user.  WORKING
+// Required Body
+// {
+//     "username": "bobby_boi", 
+//     "email": "BigBob@bobmail.com",
+//     "password": "bobbyRULEZ"
+// }
+
 router.post('/', (req, res) => {
     User.create({
         username: req.body.username, 
@@ -50,19 +58,25 @@ router.post('/', (req, res) => {
     });
 });
 
-// login route
+// // login route WORKING
+// {
+//      "email": "testytest1@gmail.com", 
+//      "password": "tester_1"
+// }
+// This gets you a 200 respose
 router.post('/login', (req, res) => {
     User.findOne({
       where: {
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password
       }
     }).then(dbUserData => {
       if (!dbUserData) {
-        res.status(400).json({ message: 'No user with that email address!' });
+        res.status(400).json({ message: 'your login credentials are not correct' });
         return;
       }
   
-      const validPassword = dbUserData.checkPassword(req.body.password);
+      const validPassword = dbUserData.password;
       if (!validPassword) {
         res.status(400).json({ message: 'Incorrect password!' });
         return;
@@ -72,12 +86,14 @@ router.post('/login', (req, res) => {
     });
   });
     
-//PUT /api/users/1
+//PUT /api/user/1
+// This route changes the password
+// WORKING
 router.put('/:id', (req, res) => {
     User.update (req.body, {
         individualHooks: true,
         where: {
-            id: req.params.id
+            user_id: req.params.id
         }
     })
     .then(dbUserData => {
@@ -93,11 +109,11 @@ router.put('/:id', (req, res) => {
     });
 });
 
-//DELETE / api/users/1
+//DELETE / api/user/1  WORKING
 router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
-            id: req.params.id
+            user_id: req.params.id
         }
     })
     .then(dbUserData => {
