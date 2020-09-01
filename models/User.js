@@ -14,7 +14,7 @@ User.init(
         username: {
             type: DataTypes.TEXT, 
             allowNull: false, 
-            unique: true
+            // unique: true
         }, 
         password: {
             type: DataTypes.TEXT, 
@@ -26,7 +26,7 @@ User.init(
         email: {
             type: DataTypes.TEXT, 
             allowNull: false, 
-            unique: true, 
+            // unique: true, 
             validate: {
                 isEmail: true
             }
@@ -38,7 +38,14 @@ User.init(
         freezeTableName: true,
         underscored: true,
         modelName: 'User'
-    }
+    },
+    {
+    indexes: [
+        {
+            unique: true,
+            fields: ['username']
+        }
+    ]}
 );
 
 module.exports = User;

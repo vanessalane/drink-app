@@ -19,7 +19,7 @@ Recipe.init(
             allowNull: false
         },
         user_id: {
-            type: DataTypes.TEXT,
+            type: DataTypes.INTEGER,
             allowNull: false,
             // add in once the user model exists 
             // references: {
