@@ -6,16 +6,17 @@ const { Post,  Ingredient} = require ('../models');
 router.get('/',( reg, res) => {
     Ingredient.findAll({
         attributes:[
-            'ingredient_id',
-            'ingredient_name',
-            'sequelize',
-
-        ],
+            'ingredient_id','ingredient_name']
+            ,
         order: [['created_at', 'DESC']],
         include: [
+            // {
+            //     model:Ingredient ,
+            //     attributes: ['ingredient_id']
+            // },
             {
-                model:Ingredient ,
-                attributes: ['ingredient_id']
+                model:RecipeIngredient,
+                attributes:['ri_id', 'amount'],
             },
             {
                 model: Recipe,
