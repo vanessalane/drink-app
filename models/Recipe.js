@@ -12,12 +12,10 @@ Recipe.init(
         },
         recipe_name: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false
         },
         instructions: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false
         },
         user_id: {
@@ -30,7 +28,6 @@ Recipe.init(
         },
         image_file_name: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false
         },
         rating: {

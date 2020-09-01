@@ -7,7 +7,6 @@ Ingredient.init(
   {
     ingredient_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
