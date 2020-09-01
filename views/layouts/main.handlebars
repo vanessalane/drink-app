@@ -37,7 +37,7 @@
   </ul>
 
   <main class="blue-grey lighten-5">
-    {{#if no_hero}}
+    {{#unless no_hero}}
       {{#if big_hero }}
       <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 65vh">
       {{else}}
@@ -51,7 +51,7 @@
               </div>
             </div>
       </div>
-    {{/if}}
+    {{/unless}}
 
     <div class="container body-content" id="body">
       {{{ body }}}
