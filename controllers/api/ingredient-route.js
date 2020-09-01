@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post,  Ingredient} = require ('../models');
+const { Post,  Ingredient} = require ('../../models');
 
 //GET All Recipe
 
@@ -30,7 +30,5 @@ router.get('/',( reg, res) => {
             res.status(500).json(err);
         });
     })
-
-})
 
 module.exports = router;

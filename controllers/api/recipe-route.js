@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, Recipe } = require ('../models');
+const { Post, Recipe } = require ('../../models');
 
 //GET All Recipe
 
