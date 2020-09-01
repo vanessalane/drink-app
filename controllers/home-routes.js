@@ -1,35 +1,47 @@
 const router = require('express').Router();
-const sequelize = require('../config/connection');
+const {Recipe} = require('../models');
 
 router.get('/', (req, res) => {
-    res.render('homepage', {
-        // context variables for styling the handlebars template
-        big_hero: true,
-        hero_eyebrow: "it's time to",
-        hero_title: "drink app",
-        // variables for the template contents
-        loggedIn: true
-    });
+    Recipe.findAll()
+    .then(loadedRecipes => {
+        const recipes = loadedRecipes.map(recipe => recipe.get({ plain: true }));
+        res.render('homepage', {
+            big_hero: true,
+            hero_eyebrow: "it's time to",
+            hero_title: "drink app",
+            recipes,
+            loggedIn: req.session.loggedIn
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    })
 });
 
 router.get('/my-recipes', (req, res) => {
     res.render('dashboard', {
-        // context variables for styling the handlebars template
         hero_eyebrow: "My Recipes",
-        // variables for the template contents
-        loggedIn: true
+        loggedIn: req.session.loggedIn
     });
 });
 
 // route for the login page
 router.get('/login', (req, res) => {
-    // if (req.session.loggedIn) {
-    //   res.redirect('/');
-    //   return;
-    // }
+    if (req.session.loggedIn) {
+      res.redirect('/');
+      return;
+    }
 
     res.render('login', {
         no_hero: true
+    });
+});
+
+// route for the user page
+router.get('/user/:id', (req, res) => {
+    res.render('user', {
+        hero_eyebrow: "username"
     });
 });
 
