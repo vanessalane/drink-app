@@ -51,7 +51,9 @@ nav {
     background-size: cover;
     background-position: center;
 }
-
+.hidden {
+    display: none;
+}
 .recipe-image {
     background-size: cover;
     background-position: center;
