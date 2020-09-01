@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
-// GET /api/users  WORKING
+// GET /api/users
 router.get('/', (req, res) => {
     // Access our User model and fun .findAll() method
     User.findAll({
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET .api/users/1  WORKING
+// GET .api/users/1
 router.get('/:user_id', (req, res) => {
     User.findOne({
         attributes: { exclude: ['password'] },
@@ -36,15 +36,14 @@ router.get('/:user_id', (req, res) => {
     });
 });
 
-//POST /api/user
-// This route adds a new user.  WORKING
-// Required Body
+// POST /api/user
+// This route adds a new user.
+// Required body:
 // {
 //     "username": "bobby_boi", 
 //     "email": "BigBob@bobmail.com",
 //     "password": "bobbyRULEZ"
 // }
-
 router.post('/', (req, res) => {
     User.create({
         username: req.body.username, 
@@ -58,7 +57,8 @@ router.post('/', (req, res) => {
     });
 });
 
-// // login route WORKING
+// POST /api/users/login
+// Required body:
 // {
 //      "email": "testytest1@gmail.com", 
 //      "password": "tester_1"
@@ -71,24 +71,50 @@ router.post('/login', (req, res) => {
         password: req.body.password
       }
     }).then(dbUserData => {
-      if (!dbUserData) {
-        res.status(400).json({ message: 'your login credentials are not correct' });
-        return;
-      }
-  
-      const validPassword = dbUserData.password;
-      if (!validPassword) {
-        res.status(400).json({ message: 'Incorrect password!' });
-        return;
-      }
-  
-      res.json({ user: dbUserData, message: 'You are now logged in!' });
+        if (!dbUserData) {
+            res.status(400).json({ message: 'Your login credentials are not correct.' });
+            return;
+        }
+
+        const validPassword = dbUserData.checkPassword(req.body.password);
+
+        if (!validPassword) {
+            res.status(400).json({ message: 'Incorrect password!' });
+            return;
+        }
+
+        req.session.save(() => {
+            // declare session variables
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json({ user: dbUserData, message: 'You are now logged in!' });
+        });
     });
-  });
-    
-//PUT /api/user/1
-// This route changes the password
-// WORKING
+});
+
+// POST /api/users/logout
+// Body can be empty--data in the body is not used for the request
+router.post('/logout', (req, res) => {
+    if (req.session.loggedIn) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    }
+    else {
+        res.status(404).end();
+    }
+});
+
+// PUT /api/users/1
+// Body can include the following
+// {
+//      "username": "testytest1",
+//      "email": "testytest1@gmail.com",
+//      "password": "tester_1"
+// }
+// This gets you a 200 respose
 router.put('/:id', (req, res) => {
     User.update (req.body, {
         individualHooks: true,
