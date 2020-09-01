@@ -27,4 +27,10 @@ VALUES ("Gin and Tonic",
 "https://img4.thelist.com/img/gallery/when-you-drink-vodka-every-night-this-is-what-happens-to-your-body/you-may-lose-weight-if-you-drink-vodka-every-night-1580240935.jpg", 
 2.2);
 
+INSERT INTO RecipeIngredient (recipe_id, ingrdient_id, amount)
+VALUES
+(1, 2, "1 part"),
+(1, 6, "2 parts"),
+(2, 1, "1 shot");
+
 

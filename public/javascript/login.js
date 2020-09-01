@@ -10,7 +10,7 @@ async function logIn(email, password) {
   
     // if the user could log in, send them to their dashboard
     if (response.ok) {
-        document.location.replace('/dashboard');
+        document.location.replace('/');
     }
     else {
       // otherwise, get the data from the response and surface the error to the user
@@ -29,8 +29,12 @@ async function logIn(email, password) {
   
     const email = document.querySelector('#auth-email').value.trim();
     const password = document.querySelector('#auth-password').value.trim();
-  
-    if (email && password) {
+
+    if (!email) {
+      document.querySelector("#auth-error").textContent = 'Email is required!'
+    } else if (!password) {
+      document.querySelector("#auth-error").textContent = 'Password is required!'
+    } else {
       logIn(email, password);
     }
   }
@@ -45,7 +49,13 @@ async function logIn(email, password) {
     const email = document.querySelector('#auth-email').value.trim();
     const password = document.querySelector('#auth-password').value.trim();
   
-    if (username && email && password) {
+    if (!username) {
+      document.querySelector("#auth-error").textContent = 'Username is required!'
+    } else if (!email) {
+      document.querySelector("#auth-error").textContent = 'Email is required!'
+    } else if (!password) {
+      document.querySelector("#auth-error").textContent = 'Password is required!'
+    } else {
       const response = await fetch('/api/users', {
         method: 'post',
         body: JSON.stringify({
