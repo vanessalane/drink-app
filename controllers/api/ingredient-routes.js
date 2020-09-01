@@ -10,7 +10,24 @@ router.get('/',( reg, res) => {
             'ingredient_name',
             'sequelize',
 
-        ]
+        ],
+        order: [['created_at', 'DESC']],
+        include: [
+            {
+                model:Ingredient ,
+                attributes: ['ingredient_id']
+            },
+            {
+                model: Recipe,
+                attributes: ['recipe_id']
+            },
+        ],
+    })
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
     })
 
 })
