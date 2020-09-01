@@ -1,21 +1,21 @@
+USE drink_app;
+
+INSERT INTO User (user_id, username, password, email)
+VALUES (1, "test_user_1", "tester_1", "testytest1@gmail.com"),
+(2, "test_user_2", "tester_2", "testytest2@gmail.com"),
+(3, "test_user_3", "tester_3", "testytest3@gmail.com");
 
 
-INSERT INTO Users (username, password, email)
-VALUES ("test_user_1", "tester_1", "testytest1@gmail.com"),
-("test_user_2", "tester_2", "testytest2@gmail.com"),
-("test_user_3", "tester_3", "testytest3@gmail.com");
+INSERT INTO Ingredient (ingredient_id, ingredient_name)
+VALUES (1, "Vodka"),
+(2, "Gin"),
+(3, "Bitters"),
+(4, "Whiskey"),
+(5, "Garnish"),
+(6, "Tonic"),
+(7, "Ice");
 
-
-INSERT INTO Ingredient (ingredient_name)
-VALUES ("Vodka"),
-("Gin"),
-("Bitters"),
-("Whiskey"),
-("Garnish"),
-("Tonic"),
-("Ice");
-
-INSERT INTO Recipe (recipe_name, instuctions, user_id, image_file_name,  rating)
+INSERT INTO Recipe (recipe_name, instructions, user_id, image_file_name,  rating)
 VALUES ("Gin and Tonic", 
 "Take 1 part Gin and 2 parts tonic.  Mix in a highball glass with ice.  Drink and Repeat.", 
 1, 

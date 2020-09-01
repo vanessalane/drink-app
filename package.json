@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "migrate": "mysql -u root < db/schema.sql"
+    "migrate": "mysql -u root < db/schema.sql",
+    "seed": "mysql -u root < db/seed.sql",
+    "mysql": "mysql -u root -p"
   },
   "repository": {
     "type": "git",
@@ -27,3 +29,4 @@
     "sequelize": "^6.3.4"
   }
 }
+
