@@ -19,13 +19,6 @@ router.get('/', (req, res) => {
     })
 });
 
-router.get('/my-recipes', (req, res) => {
-    res.render('dashboard', {
-        hero_eyebrow: "My Recipes",
-        loggedIn: req.session.loggedIn
-    });
-});
-
 // route for the login page
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {

@@ -36,7 +36,7 @@ router.get('/:user_id', (req, res) => {
     });
 });
 
-// POST /api/user
+// POST /api/users
 // This route adds a new user.
 // Required body:
 // {
@@ -46,40 +46,46 @@ router.get('/:user_id', (req, res) => {
 // }
 router.post('/', (req, res) => {
     User.create({
-        username: req.body.username, 
-        email: req.body.email, 
+        username: req.body.username,
+        email: req.body.email,
         password: req.body.password
     })
-    .then(dbUserData => res.json(dbUserData))
+    .then(dbUserData => {
+        req.session.save(() => {
+          req.session.user_id = dbUserData.id;
+          req.session.username = dbUserData.username;
+          req.session.loggedIn = true;
+
+          res.json(dbUserData);
+        });
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
-    });
+   });
 });
 
 // POST /api/users/login
 // Required body:
 // {
-//      "email": "testytest1@gmail.com", 
-//      "password": "tester_1"
+//     "email": "BigBob@bobmail.com",
+//     "password": "bobbyRULEZ"
 // }
-// This gets you a 200 respose
 router.post('/login', (req, res) => {
     User.findOne({
-      where: {
-        email: req.body.email,
-        password: req.body.password
-      }
+        where: {
+            email: req.body.email
+        }
     }).then(dbUserData => {
         if (!dbUserData) {
-            res.status(400).json({ message: 'Your login credentials are not correct.' });
+            res.status(400).json({ message: 'Email address provided does not match an existing account.' });
             return;
         }
 
         const validPassword = dbUserData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect password!' });
+            res.status(400).json({ message: 'Invalid credentials.' });
             return;
         }
 
@@ -89,30 +95,30 @@ router.post('/login', (req, res) => {
             req.session.username = dbUserData.username;
             req.session.loggedIn = true;
 
-            res.json({ user: dbUserData, message: 'You are now logged in!' });
+            res.json({ user: dbUserData, message: 'You are now logged in.' });
         });
     });
 });
 
 // POST /api/users/logout
-// Body can be empty--data in the body is not used for the request
+// no body necessary
 router.post('/logout', (req, res) => {
-    if (req.session.loggedIn) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
-    }
-    else {
-        res.status(404).end();
-    }
+  if (req.session.loggedIn) {
+      req.session.destroy(() => {
+          res.status(204).end();
+      });
+  }
+  else {
+      res.status(404).end();
+  }
 });
 
 // PUT /api/users/1
 // Body can include the following
 // {
-//      "username": "testytest1",
-//      "email": "testytest1@gmail.com",
-//      "password": "tester_1"
+//     "username": "bobby_boi", 
+//     "email": "BigBob@bobmail.com",
+//     "password": "bobbyRULEZ"
 // }
 // This gets you a 200 respose
 router.put('/:id', (req, res) => {
@@ -135,7 +141,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-//DELETE / api/user/1  WORKING
+// DELETE / api/user/1
 router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
