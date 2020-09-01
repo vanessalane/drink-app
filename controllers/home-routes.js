@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/my-recipes', (req, res) => {
     res.render('dashboard', {
         // context variables for styling the handlebars template
         hero_eyebrow: "My Recipes",

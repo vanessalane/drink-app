@@ -10,7 +10,8 @@ async function logIn(email, password) {
   
     // if the user could log in, send them to their dashboard
     if (response.ok) {
-        document.location.replace('/');
+      console.log('success');
+      document.location.replace('/my-recipes');
     }
     else {
       // otherwise, get the data from the response and surface the error to the user
@@ -77,10 +78,10 @@ async function logIn(email, password) {
   
           // handle uniqueness constraints that can't be customized in sequelize
           switch (latestError.message) {
-            case "user.user_email_unique must be unique":
+            case "user.email must be unique":
               latestError.message = "An account with that email already exists! Please try logging in."
               break;
-            case "user.user_username_unique must be unique":
+            case "user.user_username must be unique":
               latestError.message = "Username taken!"
               break;
           }
