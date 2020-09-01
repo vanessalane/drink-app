@@ -11,24 +11,26 @@ Recipe.init(
             autoIncrement: true
         },
         recipe_name: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         instructions: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            // add in once the user model exists 
-            // references: {
-            //     model: 'User',
-            //     key: 'user_id'
-            // }
+            references: {
+                model: 'User',
+                key: 'user_id'
+            }
         },
         image_file_name: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
+            unique: true,
             allowNull: false
         },
         rating: {
@@ -42,14 +44,6 @@ Recipe.init(
         freezeTableName: true,
         underscored: true,
         modelName: 'Recipe'
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ['recipe_name', 'user_id']
-            }
-        ]
     }
 );
 

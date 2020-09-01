@@ -21,9 +21,6 @@ User.init(
             allowNull: false,
             unique: true,
             validation: {
-                notNull: {
-                    msg: "Username is required."
-                },
                 len: {
                     args: [1, 30],
                     msg: "Username should be between 1-30 characters."
@@ -35,9 +32,6 @@ User.init(
             allowNull: false,
             unique: true,
             validate: {
-                notNull: {
-                    msg: "Username is required."
-                },
                 isEmail: {
                     args: true,
                     msg: "Please provide a valid email address."
@@ -48,12 +42,9 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: {
-                    msg: "Username is required."
-                },
                 len: {
-                    args: [6, 30],
-                    msg: "Password should be between 6-30 characters."
+                    args: [4, 30],
+                    msg: "Password should be between 4-30 characters."
                 }
             }
         },
