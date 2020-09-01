@@ -37,19 +37,21 @@
   </ul>
 
   <main class="blue-grey lighten-5">
-    {{#if big_hero }}
-    <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 65vh">
-    {{else}}
-    <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 40vh">
-    {{/if}}
-          <div class="row hero-content-container valign-wrapper">
-            <div class="hero-content col l6 s12 offset-l3 hero-title">
-              <h3 class="grey-text text-lighten-5 center-align">{{ hero_eyebrow }}</h3>
-              <h1 class="amber-text text-lighten-3 center-align">{{ hero_title }}</h1>
-              <h3 class="grey-text text-lighten-5 center-align">{{ hero_subtitle }}</h3>
+    {{#if no_hero}}
+      {{#if big_hero }}
+      <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 65vh">
+      {{else}}
+      <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 40vh">
+      {{/if}}
+            <div class="row hero-content-container valign-wrapper">
+              <div class="hero-content col l6 s12 offset-l3 hero-title">
+                <h3 class="grey-text text-lighten-5 center-align">{{ hero_eyebrow }}</h3>
+                <h1 class="amber-text text-lighten-3 center-align">{{ hero_title }}</h1>
+                <h3 class="grey-text text-lighten-5 center-align">{{ hero_subtitle }}</h3>
+              </div>
             </div>
-          </div>
-    </div>
+      </div>
+    {{/if}}
 
     <div class="container body-content" id="body">
       {{{ body }}}
