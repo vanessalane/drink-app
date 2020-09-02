@@ -34,6 +34,11 @@ Recipe.init(
             type: DataTypes.DECIMAL,
             allowNull: false
         },
+        rating_count: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1
+        },
     },
     {
         sequelize,

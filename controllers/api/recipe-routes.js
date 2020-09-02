@@ -4,7 +4,7 @@ const { Recipe, Ingredient, RecipeIngredient, User } = require ('../../models');
 // GET All Ingredients
 router.get('/', (req, res) => {
     Recipe.findAll({
-        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating'],
+        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating', 'rating_count'],
         include: [
             {
                 model: User,
