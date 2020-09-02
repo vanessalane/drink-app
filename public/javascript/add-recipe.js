@@ -1,34 +1,17 @@
 $(document).ready(function(){
-    $('select').formSelect();
 
-    $('.tooltipped').tooltip();
+    // create an option in the dropdown for each ingredient in the database
+    $.get('/api/ingredients')
+    .done((ingredients) => {
+        $.each(ingredients, function(index, ingredient) {
+            const newOption = $("<option>")
+                .attr({'value': ingredient.ingredient_id})  // set the value to ingredient_id
+                .text(ingredient.ingredient_name);  // set the text content to ingredient_name
+
+            // set up the select element
+            $('select')
+                .append(newOption)
+                .formSelect();
+        });
+    });
 });
-
-// async function newFormHandler(event) {
-//     event.preventDefault();
-  
-//     const title = $('#recipe-name').val().trim();
-//     const instructions = $('#recipe-instructions').val().trim();
-//     const ingredients = $('.ingredient');
-  
-//     const response = await fetch(`/api/posts`, {
-//       method: 'POST',
-//       body: JSON.stringify({
-//         title,
-//         instructions,
-//         image_file_name,
-        
-//       }),
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-  
-//     if (response.ok) {
-//       document.location.replace('/dashboard');
-//     } else {
-//       alert(response.statusText);
-//     }
-// }
-
-// $('.add-recipe-form').onSubmit(newFormHandler);

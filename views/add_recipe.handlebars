@@ -16,7 +16,7 @@
         <div class="row" id="ingredient-container">
             <h6>Ingredients</h6>
             <div class="col s12">
-                <div class="row">
+                <div class="row" id="1">
                     <div class="col s12 m4 l5 input-field ingredient-amount-container">
                         <input id="ingredient-amount" type="text" class="validate ingredient-amount" required=""></input>
                         <label for="ingredient-amount">Amount</label>
@@ -24,16 +24,12 @@
 
                     <div class="col s12 m5 l5 input-field ingredient-name-container">
                         <select class="ingredient-name validate" required="">
-                            <option value="" disabled selected>Choose an ingredient</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
+                            <option value="" disabled selected>descriptor</option>
                         </select>
-                        <label>Materialize Select</label>
                     </div>
 
-                    <div class="col s12 m2 l2 input-field center-align">
-                        <a id="remove-ingredient" class="btn-floating btn waves-effect waves-light red"><i class="material-icons">clear</i></a>
+                    <div class="col s12 m3 l2 input-field center-align">
+                        <a id="remove-ingredient" class="btn-floating btn waves-effect waves-light red"><i class="material-icons">delete</i></a>
                         <a id="add-ingredient" class="btn-floating btn waves-effect waves-light green"><i class="material-icons">add</i></a>
                     </div>
                 </div>

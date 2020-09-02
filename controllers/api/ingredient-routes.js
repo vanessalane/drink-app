@@ -8,7 +8,7 @@ router.get('/',( reg, res) => {
         attributes:[
             'ingredient_id','ingredient_name']
             ,
-        order: [['ingredient_id', 'DESC']],
+        order: [['ingredient_name', 'ASC']],
         include: [
             {
                 model: Recipe,
