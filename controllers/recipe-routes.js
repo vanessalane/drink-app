@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 router.get('/add', (req, res) => {
     res.render('add_recipe', {
-        hero_eyebrow: "add a recipe",
+        no_hero: true,
         loggedIn: req.session.loggedIn
     });
 });
