@@ -17,24 +17,21 @@ async function logIn(email, password) {
       // otherwise, get the data from the response and surface the error to the user
       response.json().then(data => {
         const latestError = data.message;
-        document.querySelector("#auth-error").textContent = latestError;
+        $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
       })
     }
   }
   
   async function loginFormHandler(event) {
     event.preventDefault();
-  
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
-  
-    const email = document.querySelector('#auth-email').value.trim();
-    const password = document.querySelector('#auth-password').value.trim();
+
+    const email = $('#auth-email').val().trim();
+    const password = $('#auth-password').val().trim();
 
     if (!email) {
-      document.querySelector("#auth-error").textContent = 'Email is required!'
+      $("#auth-error").text('Email is required!').show().delay(3000).fadeOut(500);;
     } else if (!password) {
-      document.querySelector("#auth-error").textContent = 'Password is required!'
+      $("#auth-error").text('Password is required!').show().delay(3000).fadeOut(500);;
     } else {
       logIn(email, password);
     }
@@ -44,18 +41,18 @@ async function logIn(email, password) {
     event.preventDefault();
   
     // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
+    $("#auth-error").text('');
   
-    const username = document.querySelector('#auth-username').value.trim();
-    const email = document.querySelector('#auth-email').value.trim();
-    const password = document.querySelector('#auth-password').value.trim();
+    const username = $('#auth-username').val().trim();
+    const email = $('#auth-email').val().trim();
+    const password = $('#auth-password').val().trim();
   
     if (!username) {
-      document.querySelector("#auth-error").textContent = 'Username is required!'
+      $("#auth-error").text('Username is required!').show().delay(3000).fadeOut(500);
     } else if (!email) {
-      document.querySelector("#auth-error").textContent = 'Email is required!'
+      $("#auth-error").text('Email is required!').show().delay(3000).fadeOut(500);
     } else if (!password) {
-      document.querySelector("#auth-error").textContent = 'Password is required!'
+      $("#auth-error").text('Password is required!').show().delay(3000).fadeOut(500);
     } else {
       const response = await fetch('/api/users', {
         method: 'post',
@@ -87,7 +84,7 @@ async function logIn(email, password) {
           }
   
           // add the error to the template
-          document.querySelector("#auth-error").textContent = latestError.message;
+          $("#auth-error").text(latestError.message);
         })
       }
     }
@@ -96,40 +93,34 @@ async function logIn(email, password) {
   function displaySignupForm() {
     event.preventDefault();
   
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
-  
     // hide the login form
-    document.querySelector('.btn-login').classList.add('hidden');
-    document.querySelector('.btn-create-account').classList.add('hidden');
+    $('.btn-login').addClass('hidden');
+    $('.btn-create-account').addClass('hidden');
   
     // show the signup form
-    document.querySelector('.btn-login-instead').classList.remove('hidden');
-    document.querySelector('.btn-signup').classList.remove('hidden');
-    document.querySelector('.auth-username-container').classList.remove('hidden');
-    document.querySelector('.auth-card-title').textContent = "Create an Account";
+    $('.btn-login-instead').removeClass('hidden');
+    $('.btn-signup').removeClass('hidden');
+    $('.auth-username-container').removeClass('hidden');
+    $('.auth-card-title').textContent = "Create an Account";
   }
   
   function displayLoginForm() {
     event.preventDefault();
   
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
-  
     // hide the signup form
-    document.querySelector('.btn-login-instead').classList.add('hidden');
-    document.querySelector('.btn-signup').classList.add('hidden');
-    document.querySelector('.auth-username-container').classList.add('hidden');
+    $('.btn-login-instead').addClass('hidden');
+    $('.btn-signup').addClass('hidden');
+    $('.auth-username-container').addClass('hidden');
   
     // show the login form
-    document.querySelector('.btn-login').classList.remove('hidden');
-    document.querySelector('.btn-create-account').classList.remove('hidden');
-    document.querySelector('.auth-card-title').textContent = "Log In";
+    $('.btn-login').removeClass('hidden');
+    $('.btn-create-account').removeClass('hidden');
+    $('.auth-card-title').textContent = "Log In";
   
   }
   
-  document.querySelector('.btn-login-instead').addEventListener('click', displayLoginForm);
-  document.querySelector('.btn-create-account').addEventListener('click', displaySignupForm);
-  document.querySelector('.btn-login').addEventListener('click', loginFormHandler);
-  document.querySelector('.btn-signup').addEventListener('click', signupFormHandler);
+  $('.btn-login-instead').on('click', displayLoginForm);
+  $('.btn-create-account').on('click', displaySignupForm);
+  $('.btn-login').on('click', loginFormHandler);
+  $('.btn-signup').on('click', signupFormHandler);
   
