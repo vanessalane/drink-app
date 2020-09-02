@@ -1,15 +1,10 @@
-async function logout() {
-    const response = await fetch('/api/users/logout', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' }
+function logout() {
+    $.post('/api/users/logout')
+    .done((data) => document.location.replace('/login'))
+    .fail((data) => {
+        const latestError = data.responseJSON.message;
+        alert(latestError);
     });
-
-    if (response.ok) {
-        console.log('logged out');
-        document.location.replace('/login');
-    } else {
-        alert(response.statusText);
-    }
 }
     
-$('#logout').on('click', logout);
+$('.logout').on('click', logout);
