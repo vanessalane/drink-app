@@ -8,24 +8,24 @@
                 <form class="auth-form">
                     <div class="row">
                         <div class="input-field col s12 auth-email-container">
-                            <input id="auth-email" type="email">
+                            <input id="auth-email" type="email" class="validate" required="">
                             <label for="auth-email">Email</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 auth-username-container hidden">
-                            <input id="auth-username" type="text">
+                            <input id="auth-username" type="text" class="validate" required="">
                             <label for="auth-username">Username</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 auth-password-container">
-                            <input id="auth-password" type="password">
+                            <input id="auth-password" type="password" class="validate" required="">
                             <label for="auth-password">Password</label>
                         </div>
                     </div>
                     <div class="row center-align">
-                        <h6 class="red-text center-align" id="auth-error"></h6>
+                        <p class="red-text center-align" id="auth-error"></p>
                         <div class="input-field col s12">
                             <a class="waves-effect deep-orange darken-2 waves-light btn btn-login">Log In</a>
                             <a class="waves-effect deep-orange darken-2 waves-light btn btn-signup hidden">Sign Up</a>

@@ -1,0 +1,73 @@
+<div class="card">
+  <section class="card-content">
+    <div class="row">
+      <h4 class="center-align">Add a New Recipe</h4>
+    </div>
+
+    <form class="add-recipe-form">
+        <div class="row">
+            <h6>Recipe Name</h6>
+            <div class="input-field col s12">
+                <input id="recipe-name" type="text" class="validate" required=""></input>
+                <label for="recipe-name">Name</label>
+            </div>
+        </div>
+
+        <div class="row" id="ingredient-container">
+            <h6>Ingredients</h6>
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12 m4 l5 input-field ingredient-amount-container">
+                        <input id="ingredient-amount" type="text" class="validate ingredient-amount" required=""></input>
+                        <label for="ingredient-amount">Amount</label>
+                    </div>
+
+                    <div class="col s12 m5 l5 input-field ingredient-name-container">
+                        <select class="ingredient-name validate" required="">
+                            <option value="" disabled selected>Choose an ingredient</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
+                        <label>Materialize Select</label>
+                    </div>
+
+                    <div class="col s12 m2 l2 input-field center-align">
+                        <a id="remove-ingredient" class="btn-floating btn waves-effect waves-light red"><i class="material-icons">clear</i></a>
+                        <a id="add-ingredient" class="btn-floating btn waves-effect waves-light green"><i class="material-icons">add</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="recipe-instructions-container">
+            <h6>Instructions</h6>
+            <div class="input-field col s12">
+                <textarea id="recipe-instructions" class="materialize-textarea validate" required=""></textarea>
+                <label for="recipe-instructions">Instructions</label>
+            </div>
+        </div>
+        
+        <div class="row" id="recipe-image-container">
+            <h6>Add an Image</h6>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>file</span>
+                    <input type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input id="recipe-image-filename" class="file-path validate" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="row center-align" id="submit-container">
+            <div class="input-field ">
+                <button type="submit" class="btn">Add Post</button>
+            </div>
+        </div>
+    </form>
+  </section>
+</div>
+
+<script src="/javascript/add-recipe.js"></script>
