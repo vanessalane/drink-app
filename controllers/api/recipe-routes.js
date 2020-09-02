@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { Recipe, Ingredient, RecipeIngredient, User } = require ('../../models');
+const { Recipe, Ingredient, RecipeIngredient, User } = require('../../models');
 
-// GET All Ingredients
+// GET All Recipe
 router.get('/', (req, res) => {
     Recipe.findAll({
         attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating'],
@@ -15,17 +15,45 @@ router.get('/', (req, res) => {
                 attributes: ['ingredient_id', 'ingredient_name'],
                 as: 'ingredients',
                 through: {
-                  attributes: ['amount'],
-                  as: 'ingredient_amount'
+                    attributes: ['amount'],
+                    as: 'ingredient_amount'
                 }
             },
         ],
     })
-    .then(loadedRecipes => res.json(loadedRecipes))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(loadedRecipes => res.json(loadedRecipes))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+})
+
+// GET one Recipe
+router.get('/:id', (req, res) => {
+    Recipe.findOne({
+        where: { recipe_id : req.params.id },
+        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating'],
+        include: [
+            {
+                model: User,
+                attributes: ['username']
+            },
+            {
+                model: Ingredient,
+                attributes: ['ingredient_id', 'ingredient_name'],
+                as: 'ingredients',
+                through: {
+                    attributes: ['amount'],
+                    as: 'ingredient_amount'
+                }
+            },
+        ],
+    })
+        .then(loadedRecipes => res.json(loadedRecipes))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 })
 
 module.exports = router;
