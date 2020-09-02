@@ -1,5 +1,7 @@
-// create an option in the dropdown for each ingredient in the database
-$(document).ready(function(){
+$(document).ready(autoComplete());
+
+// function to initialize autocomplete for ingredients
+function autoComplete() {
     $.get('/api/ingredients')
     .done((ingredients) => {
         const ingredientNames = {};
@@ -11,30 +13,22 @@ $(document).ready(function(){
             data: ingredientNames
         });
     });
-});
+}
 
-let inputCount = 1;
+let inputCount = 1;  // used to generate unique IDs for HTML elements
 
-function addIngredientInput() {
+function addIngredientInputs() {
+    inputCount++;
 
     // copy the ingredient inputs section
-    const inputsId = `ingredient-inputs-${inputCount}`;
-    let newInputs = $(`#${inputsId}`).clone();
-    console.log(newInputs);
-
-    // increment our inputCount
-    inputCount++;
-    
-    // update the id for this set of inputs
-    const newInputsId = `ingredient-inputs-${inputCount}`;
-    newInputs.attr('id', newInputsId);
+    let newInputs = $(this).closest('.ingredient-inputs').clone();
 
     // update the input value and id
     let amountInput = newInputs.find("input.ingredient-amount");
     let amountLabel = newInputs.find("label.ingredient-amount-label");
     
     const amountId = `ingredient-amount-${inputCount}`;
-    amountInput.attr('id', amountId).empty();
+    amountInput.attr('id', amountId);
     amountLabel.attr('for', amountId);
 
     // update the name value and id
@@ -42,17 +36,26 @@ function addIngredientInput() {
     const nameLabel = newInputs.find("label.ingredient-amount-label");
 
     const nameId = `ingredient-name-${inputCount}`;
-    nameInput.attr('id', nameId).empty();
+    nameInput.attr('id', nameId);
     nameLabel.attr('for', nameId);
 
+    // show the delete button since it's not the first ingredient input
+    newInputs.find(".remove-ingredient").removeClass('hidden');
+
     // add event listeners to the buttons
-    newInputs.find(".add-ingredient").on("click", addIngredientInput);
-    newInputs.find(".remove-ingredient").on("click", () => console.log('delete'));
+    newInputs.find(".add-ingredient").on("click", addIngredientInputs);
+    newInputs.find(".remove-ingredient").on("click", removeIngredientInputs);
 
     // append the copy to the ingredients section
     $("#ingredient-section").append(newInputs);
+
+    // set up autocomplete again
+    autoComplete();
 }
 
+function removeIngredientInputs() {
+    $(this).closest('.ingredient-inputs').remove();
+}
 
-$(".remove-ingredient").on('click', () => console.log('delete'));
-$(".add-ingredient").on('click', addIngredientInput);
+$(".add-ingredient").on('click', addIngredientInputs);
+$(".remove-ingredient").on('click', removeIngredientInputs);

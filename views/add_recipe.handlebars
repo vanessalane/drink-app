@@ -17,22 +17,22 @@
         <div class="row">
             <h6>Ingredients</h6>
             <div id="ingredient-section" class="col s12">
-                <div class="row" id="ingredient-inputs-1">
+                <div class="row ingredient-inputs">
                     <div class="col s12 m4 l5 input-field ingredient-amount-container">
-                        <input id="ingredient-amount-1" data-element-id="1" type="text" class="validate ingredient-amount" required=""></input>
+                        <input id="ingredient-amount-1" type="text" class="validate ingredient-amount" required=""></input>
                         <label for="ingredient-amount-1" class="ingredient-amount-label">Amount</label>
                         <span class="helper-text" data-error="required"></span>
                     </div>
 
                     <div class="col s12 m5 l5 input-field ingredient-name-container">
-                        <input type="text" id="ingredient-name-1" data-element-id="1" class="autocomplete validate ingredient-name" required="">
+                        <input type="text" id="ingredient-name-1" class="autocomplete validate ingredient-name" required="">
                         <label for="ingredient-name-1" class="ingredient-name-label">descriptor</label>
                         <span class="helper-text" data-error="required"></span>
                     </div>
 
                     <div class="col s12 m3 l2 input-field center-align">
-                        <a class="btn-floating btn red remove-ingredient"><i class="material-icons">delete</i></a>
-                        <a class="btn-floating btn green add-ingredient"><i class="material-icons">add</i></a>
+                        <a class="btn-floating btn red remove-ingredient hidden"><i class="material-icons">delete</i></a>
+                        <a class="btn-floating btn green right add-ingredient"><i class="material-icons">content_copy</i></a>
                     </div>
                 </div>
             </div>
