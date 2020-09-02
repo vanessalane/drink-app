@@ -1,135 +1,116 @@
-async function logIn(email, password) {
-    const response = await fetch('/api/users/login', {
-      method: 'post',
-      body: JSON.stringify({
-        email,
-        password
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    });
-  
-    // if the user could log in, send them to their dashboard
-    if (response.ok) {
-      console.log('success');
-      document.location.replace('/');
-    }
-    else {
-      // otherwise, get the data from the response and surface the error to the user
-      response.json().then(data => {
-        const latestError = data.message;
-        document.querySelector("#auth-error").textContent = latestError;
-      })
-    }
-  }
-  
-  async function loginFormHandler(event) {
-    event.preventDefault();
-  
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
-  
-    const email = document.querySelector('#auth-email').value.trim();
-    const password = document.querySelector('#auth-password').value.trim();
+async function loginFormHandler(event) {
+  event.preventDefault();
 
-    if (!email) {
-      document.querySelector("#auth-error").textContent = 'Email is required!'
-    } else if (!password) {
-      document.querySelector("#auth-error").textContent = 'Password is required!'
-    } else {
-      logIn(email, password);
-    }
+  const email = $('#auth-email').val().trim();
+  const password = $('#auth-password').val().trim();
+
+  if (!email) {
+    $("#auth-error").text('Email is required!').show().delay(3000).fadeOut(500);;
+  } else if (!password) {
+    $("#auth-error").text('Password is required!').show().delay(3000).fadeOut(500);;
+  } else {
+    $.post(
+      '/api/users/login',
+      {email, password}
+    )
+    .done(() => document.location.replace('/'))
+    .fail((data) => {
+      const latestError = data.responseJSON.message;
+      console.log(data);
+      $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
+    })
   }
+}
   
-  async function signupFormHandler(event) {
-    event.preventDefault();
-  
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
-  
-    const username = document.querySelector('#auth-username').value.trim();
-    const email = document.querySelector('#auth-email').value.trim();
-    const password = document.querySelector('#auth-password').value.trim();
-  
-    if (!username) {
-      document.querySelector("#auth-error").textContent = 'Username is required!'
-    } else if (!email) {
-      document.querySelector("#auth-error").textContent = 'Email is required!'
-    } else if (!password) {
-      document.querySelector("#auth-error").textContent = 'Password is required!'
-    } else {
-      const response = await fetch('/api/users', {
-        method: 'post',
-        body: JSON.stringify({
-          username,
-          email,
-          password
-        }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-  
-      // if the credentials seem ok, try logging in
-      if (response.ok) {
-        logIn(email, password);
+async function signupFormHandler(event) {
+  event.preventDefault();
+
+  const username = $('#auth-username').val().trim();
+  const email = $('#auth-email').val().trim();
+  const password = $('#auth-password').val().trim();
+
+  // check to see that we have all of the responses necessary
+  if (!username) {
+    $("#auth-error").text('Username is required!').show().delay(3000).fadeOut(500);
+  } else if (!email) {
+    $("#auth-error").text('Email is required!').show().delay(3000).fadeOut(500);
+  } else if (!password) {
+    $("#auth-error").text('Password is required!').show().delay(3000).fadeOut(500);
+  } else {
+
+    // save the user
+    $.post(
+      '/api/users',
+      {username, email, password}
+    )
+    .done((data) => {
+      // log in if the request was successful
+      $.post(
+        '/api/users/login',
+        {email, password}
+      )
+      .done(() => document.location.replace('/'))
+      .fail((data) => {
+        const latestError = data.responseJSON.message;
+        console.log(data);
+        $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
+      })
+    })
+    .fail((data) => {
+      // surface an error message if the request wasn't successful
+      const latestError = data.responseJSON.errors[0].message;
+
+      // handle uniqueness constraints that can't be customized in sequelize
+      switch (latestError) {
+        case "user.email must be unique":
+          latestError = "An account with that email already exists."
+          break;
+        case "user.username must be unique":
+          latestError = "Username taken."
+          break;
       }
-      else {
-        // otherwise, get the data from the response and surface the error to the user
-        response.json().then(data => {
-          const latestError = data.errors[0];
-  
-          // handle uniqueness constraints that can't be customized in sequelize
-          switch (latestError.message) {
-            case "user.email must be unique":
-              latestError.message = "An account with that email already exists."
-              break;
-            case "user.username must be unique":
-              latestError.message = "Username taken."
-              break;
-          }
-  
-          // add the error to the template
-          document.querySelector("#auth-error").textContent = latestError.message;
-        })
-      }
-    }
+
+      $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
+    })
   }
+}
   
-  function displaySignupForm() {
+function displaySignupForm() {
     event.preventDefault();
-  
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
+
+    // hide the error message
+    $("#auth-error").hide();
   
     // hide the login form
-    document.querySelector('.btn-login').classList.add('hidden');
-    document.querySelector('.btn-create-account').classList.add('hidden');
+    $('.btn-login').hide();
+    $('.btn-create-account').hide();
   
     // show the signup form
-    document.querySelector('.btn-login-instead').classList.remove('hidden');
-    document.querySelector('.btn-signup').classList.remove('hidden');
-    document.querySelector('.auth-username-container').classList.remove('hidden');
-    document.querySelector('.auth-card-title').textContent = "Create an Account";
-  }
+    $('.btn-login-instead').show();
+    $('.btn-signup').show();
+    $('.auth-username-container').show();
+    $('.auth-card-title').text("Create an Account");
+}
   
-  function displayLoginForm() {
+function displayLoginForm() {
     event.preventDefault();
-  
-    // clear any prior messages
-    document.querySelector("#auth-error").textContent = '';
+
+    // hide the error message
+    $("#auth-error").hide();
   
     // hide the signup form
-    document.querySelector('.btn-login-instead').classList.add('hidden');
-    document.querySelector('.btn-signup').classList.add('hidden');
-    document.querySelector('.auth-username-container').classList.add('hidden');
+    $('.btn-login-instead').hide();
+    $('.btn-signup').hide();
+    $('.auth-username-container').hide();
   
     // show the login form
-    document.querySelector('.btn-login').classList.remove('hidden');
-    document.querySelector('.btn-create-account').classList.remove('hidden');
-    document.querySelector('.auth-card-title').textContent = "Log In";
+    $('.btn-login').show();
+    $('.btn-create-account').show();
+    $('.auth-card-title').text("Log In");
+}
   
-  }
-  
-  document.querySelector('.btn-login-instead').addEventListener('click', displayLoginForm);
-  document.querySelector('.btn-create-account').addEventListener('click', displaySignupForm);
-  document.querySelector('.btn-login').addEventListener('click', loginFormHandler);
-  document.querySelector('.btn-signup').addEventListener('click', signupFormHandler);
+$('.btn-login-instead').on('click', displayLoginForm);
+$('.btn-create-account').on('click', displaySignupForm);
+$('.btn-login').on('click', loginFormHandler);
+$('.btn-signup').on('click', signupFormHandler);
   
