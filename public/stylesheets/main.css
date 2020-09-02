@@ -66,4 +66,7 @@ a:hover{
 nav a:hover {
     opacity: 100%;
 }
+button, input {
+    font-family: 'Alata', sans-serif;
+}
 /* end body content styles */
