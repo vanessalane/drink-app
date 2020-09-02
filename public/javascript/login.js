@@ -40,9 +40,6 @@ async function logIn(email, password) {
   async function signupFormHandler(event) {
     event.preventDefault();
   
-    // clear any prior messages
-    $("#auth-error").text('');
-  
     const username = $('#auth-username').val().trim();
     const email = $('#auth-email').val().trim();
     const password = $('#auth-password').val().trim();
@@ -84,7 +81,7 @@ async function logIn(email, password) {
           }
   
           // add the error to the template
-          $("#auth-error").text(latestError.message);
+          $("#auth-error").text(latestError.message).show().delay(3000).fadeOut(500);
         })
       }
     }
