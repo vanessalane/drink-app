@@ -51,13 +51,23 @@ nav {
     background-size: cover;
     background-position: center;
 }
+.card .card-content .card-title {
+    margin-bottom: 6vh;
+}
 .hidden {
     display: none;
+}
+.input-field {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 .recipe-image {
     background-size: cover;
     background-position: center;
     margin: auto;
+}
+.row {
+    margin-bottom: 0px;
 }
 
 a:hover{

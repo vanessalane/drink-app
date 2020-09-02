@@ -1,3 +1,9 @@
+$(document).ready(() => {
+  $('.btn-login-instead').hide();
+  $('.btn-signup').hide();
+  $('.auth-username-container').hide();
+});
+
 async function loginFormHandler(event) {
   event.preventDefault();
 
@@ -74,7 +80,7 @@ async function signupFormHandler(event) {
     })
   }
 }
-  
+
 function displaySignupForm() {
     event.preventDefault();
 
