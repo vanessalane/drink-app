@@ -1,6 +1,5 @@
+// create an option in the dropdown for each ingredient in the database
 $(document).ready(function(){
-
-    // create an option in the dropdown for each ingredient in the database
     $.get('/api/ingredients')
     .done((ingredients) => {
         $.each(ingredients, function(index, ingredient) {
@@ -15,3 +14,6 @@ $(document).ready(function(){
         });
     });
 });
+
+$(".remove-ingredient").on('click', () => console.log('delete'));
+$(".add-ingredient").on('click', () => console.log('add'));
