@@ -49,15 +49,14 @@ router.get('/:id',( req, res) => {
     });
 });
 
-// POST to add multiple ingredients at once
-// /api/ingredient/bulkcreate
+// POST to find an ingredient or create it if it doesn't exist
+// /api/ingredient/findorcreate
 // Required body:
-// [
-//   {"ingredient_name": "orange peel"},
-//   {"ingredient_name": "orange peel"}
-// ]
-router.post('/bulkcreate', (req, res) => {
-    Ingredient.bulkCreate(req.body.newIngredients)
+// {"ingredient_name": "orange peel"}
+router.post('/findorcreate', (req, res) => {
+    Ingredient.findOrCreate({
+        where: { ingredient_name: req.body.ingredient_name }
+    })
     .then(dbUserData => {
         req.session.save(() => {
             req.session.ingredient_id = dbUserData.ingredient_id;

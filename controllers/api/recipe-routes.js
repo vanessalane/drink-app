@@ -81,8 +81,8 @@ router.post('/', (req, res) => {
     Recipe.create({
         recipe_name: req.body.recipe_name,
         instructions: req.body.instructions,
-        user_id: 1,  // update this to use the session
-        image_file_name: req.body.image_file_name
+        image_file_name: req.body.image_file_name,
+        user_id: req.session.user_id
     })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
