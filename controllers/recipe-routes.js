@@ -1,6 +1,7 @@
 const router = require('express').Router();
+const withAuth = require('../utils/auth');
 
-router.get('/add', (req, res) => {
+router.get('/add', withAuth, (req, res) => {
     res.render('add_recipe', {
         no_hero: true,
         loggedIn: req.session.loggedIn
