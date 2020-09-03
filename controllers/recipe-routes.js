@@ -39,17 +39,27 @@ router.get('/:recipe_id', (req, res) => {
         ],
     })
     .then(loadedRecipe => {
-        const recipe = loadedRecipe.get({ plain: true })
-        res.render('single_recipe', {
-            hero_title: recipe.recipe_name,
-            hero_subtitle: recipe.User.username,
-            image_file_name: recipe.image_file_name,
-            instructions: recipe.instructions,
-            ingredients: recipe.recipe_ingredients,
-            rating: recipe.rating,
-            rating_count: recipe.rating_count,
-            loggedIn: req.session.loggedIn
-        });
+        let recipeData;
+        if (!loadedRecipe) {
+            recipeData = {
+                no_hero: true,
+                error: "Sorry, this recipe couldn't be loaded!"
+            }
+        } else {
+            const recipe = loadedRecipe.get({ plain: true })
+            recipeData = {
+                hero_title: recipe.recipe_name,
+                hero_subtitle: recipe.User.username,
+                username: recipe.User.username,
+                image_file_name: recipe.image_file_name,
+                instructions: recipe.instructions,
+                ingredients: recipe.recipe_ingredients,
+                rating: recipe.rating,
+                rating_count: recipe.rating_count,
+                loggedIn: req.session.loggedIn
+            }
+        }
+        res.render('single_recipe', recipeData);
     })
     .catch(err => {
         console.log(err);

@@ -1,3 +1,6 @@
+{{#if error}}
+    {{> error_card}}
+{{else}}
 <div class="row">
     <div class="col s12 l5">
         <div class="card large">
@@ -8,9 +11,12 @@
             {{/if}}
         </div>
     </div>
+
     <div class="col s12 l7">
         <div class="card">
-            <div class="card-content">
+            <div class="card-content center-align">
+
+                {{#if ingredients}}
                 <div>
                     <h5 class="deep-orange-text text-darken-2">ingredients</h5>
                     <ul class="browser-default">
@@ -19,20 +25,25 @@
                         {{/each}}
                     </ul>
                 </div>
+                {{/if}}
+
+                {{#if instructions}}
                 <div>
                     <h5 class="deep-orange-text text-darken-2">instructions</h5>
                     <p>
                         {{instructions}}
                     </p>
                 </div>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 
 <div class="center-align">
-    <a href="/user/1" class="waves-effect waves-light btn">more recipes by this author</a>
+    <a href="/user/1" class="waves-effect waves-light btn">more recipes by {{username}}</a>
 </div>
+{{/if}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 <script src="/javascript/rating.js"></script>
