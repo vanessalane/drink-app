@@ -1,33 +1,35 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Recipe extends Model {};
+class UserRecipeRating extends Model {};
 
-Recipe.init(
-    {
-        recipe_id: {
+UserRecipeRating.init(
+        {
+        urr_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            allowNull: false,
             autoIncrement: true
-        },
-        recipe_name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        instructions: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        }, 
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            autoIncrement: true,
             references: {
                 model: 'User',
                 key: 'user_id'
             }
+        }, 
+        recipe_id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true, 
+            references: {
+                model: 'recipe',
+                key: 'recipe_id'
+            }
         },
-        image_file_name: {
-            type: DataTypes.STRING,
+        rating: {
+            type: DataTypes.DECIMAL,
             allowNull: false
         },
     },
@@ -36,8 +38,9 @@ Recipe.init(
         timestamps: false,
         freezeTableName: true,
         underscored: true,
-        modelName: 'Recipe'
+        modelName: 'UserRecipeRating'
     }
 );
 
 module.exports = Recipe;
+
