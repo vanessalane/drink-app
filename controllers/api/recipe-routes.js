@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { Recipe, Ingredient, RecipeIngredient, User } = require('../../models');
 
-
 // GET All Recipes
 router.get('/', (req, res) => {
     Recipe.findAll({
@@ -42,7 +41,7 @@ router.get('/:id', (req, res) => {
             {
                 model: Ingredient,
                 attributes: ['ingredient_id', 'ingredient_name'],
-                as: 'ingredients',
+                as: 'recipe_ingredients',
                 through: {
                     attributes: ['amount'],
                     as: 'ingredient_amount'
@@ -57,41 +56,8 @@ router.get('/:id', (req, res) => {
         });
 })
 
-
-// GET .api/recipes/1
-    router.get('/:id',( req, res) => {
-        Recipe.findOne({
-            // attributes:['ingredient_id'],
-            where: {
-                    recipe_id: req.params.id
-            },
-            // include: [
-            //     {
-            //         model: Recipe,
-            //         attributes: ['recipe_id'],
-            //         as: 'ingredients',
-            //         through: {
-            //             attributes: ['amount'],
-            //             as: 'ingredient_amount'
-            //           }
-            //     },
-            // ],
-        })
-        .then(dbUserData => {
-            if(!dbUserData) {
-                res.status(404).json({ message: 'No recipe found with this id' });
-                return;
-            }
-            res.json(dbUserData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-    });
-
-
-// looking for this object to pass in 
+// POST /api/recipes
+// Expected body:
 // {
 //     "recipe_name": "Sangria",
 //     "instructions": "Take some wine and some fruit and go to Spain.  Mix it all together and have a great time.",
@@ -100,7 +66,7 @@ router.get('/:id', (req, res) => {
 //     "rating": "3.6",
 //     "rating_count": "3"
 // }
-
+// This gets you a 200 respose
 router.post('/', (req, res) => {
     Recipe.create({
         recipe_name: req.body.recipe_name,
@@ -128,7 +94,7 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/users/1
-// Expected body includes the following:
+// Expected body:
 // {
 //     "recipe_name": "Sangria but different",
 //     "instructions": "Mostly juice but pretty good regardless.",

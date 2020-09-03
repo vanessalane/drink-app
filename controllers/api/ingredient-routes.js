@@ -13,7 +13,7 @@ router.get('/',( reg, res) => {
             {
                 model: Recipe,
                 attributes: ['recipe_id'],
-                as: 'ingredients',
+                as: 'recipe_ingredients',
                 through: {
                     attributes: ['amount'],
                     as: 'ingredient_amount'
@@ -49,17 +49,15 @@ router.get('/:id',( req, res) => {
     });
 });
 
-
-// POST to add an ingredient
-// /api/ingredient
+// POST to add multiple ingredients at once
+// /api/ingredient/bulkcreate
 // Required body:
-// {
-//     "ingredient_name": "orange peel"
-// }
-router.post('/', (req, res) => {
-    Ingredient.create({
-        ingredient_name: req.body.ingredient_name,
-    })
+// [
+//   {"ingredient_name": "orange peel"},
+//   {"ingredient_name": "orange peel"}
+// ]
+router.post('/bulkcreate', (req, res) => {
+    Ingredient.bulkCreate(req.body.newIngredients)
     .then(dbUserData => {
         req.session.save(() => {
             req.session.ingredient_id = dbUserData.ingredient_id;

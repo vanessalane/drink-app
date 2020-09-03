@@ -16,7 +16,7 @@ Recipe.belongsTo(User, {
 // Ingredients belongToMany Recipes (through RecipeIngredient)
 Ingredient.belongsToMany(Recipe, {
   through: RecipeIngredient,
-  as: 'ingredients',
+  as: 'recipe_ingredients',
   foreignKey: 'ingredient_id'
 })
 
@@ -27,7 +27,7 @@ Ingredient.hasMany(RecipeIngredient, {
 // Recipes belongToMany Ingredients (through RecipeIngredient)
 Recipe.belongsToMany(Ingredient, {
   through: RecipeIngredient,
-  as: 'ingredients',
+  as: 'recipe_ingredients',
   foreignKey: 'recipe_id'
 })
 
