@@ -69,30 +69,39 @@ async function addNewRecipe() {
     event.preventDefault();
 
     // get all of the amounts and all of the ingredients chosen
-    const name = $("#recipe-name").val().trim();
+    const recipe_name = $("#recipe-name").val().trim();
     const instructions = $("#recipe-instructions").val().trim();
-    const imageFileName = $("#recipe-image-filename").val().trim();
+    const image_file_name = $("#recipe-image-filename").val().trim();
+    const newRecipe = {
+        recipe_name,
+        instructions,
+        image_file_name
+    }
+    console.log(newRecipe);
 
-    // get the amounts, ingredients
+    // create the Recipe
+    $.post('/api/recipes', newRecipe)
+    .done(() => console.log("recipe created"))
+    .catch((err) => console.log(err));
+
+    // get the amounts and ingredient names
     let ingredientAmounts = $(".ingredient-inputs .ingredient-amount").map((index, el) => el.value.trim().toLowerCase());
     ingredientAmounts = $.makeArray(ingredientAmounts);
 
     let ingredientNames = $(".ingredient-inputs .ingredient-name").map((index, el) => el.value.trim().toLowerCase());
     ingredientNames = $.makeArray(ingredientNames);
 
-    // create any ingredients that aren't already in the db
+    // find any ingredients that aren't already in the db
     let newIngredients = ingredientNames
         .filter(name => !existingIngredients.includes(name))
         .map(name => ({ingredient_name: name}));
-        console.log(newIngredients);
 
+    // create any missing ingredients
     $.post('/api/ingredients/bulkcreate', {newIngredients})
     .done(() => console.log("ingredients created"))
     .catch((err) => console.log(err));
 
-    // create the Recipe
-
-    // create the RecipeIngredient
+    // create the RecipeIngredient associations
 
 }
 
