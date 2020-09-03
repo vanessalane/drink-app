@@ -1,21 +1,27 @@
-$(document).ready(autoComplete());
+let existingIngredients;  // used to determine when we need to add ingredients to the db
+let autocompleteData = {};  // options for the ingredient name autocomplete functionality
+let inputCount = 1;  // used to generate unique IDs for HTML elements
 
-// function to initialize autocomplete for ingredients
-function autoComplete() {
+$(document).ready(() => {
+    // get all of the ingredients
     $.get('/api/ingredients')
     .done((ingredients) => {
-        const ingredientNames = {};
+
+        // store the ingredient names so that we don't need to run another request
+        existingIngredients = ingredientNames.map((ingredient) => ingredient.name);
+
+        // set up the options for autocomplete
         $.each(ingredients, function(index, ingredient) {
-            const name = ingredient.ingredient_name;
-            ingredientNames[name] = null;
+            const ingredientName = ingredient.ingredient_name;
+            autocompleteData[ingredientName] = null;
         });
+
+        // activate autocomplete functionality
         $('input.autocomplete').autocomplete({
-            data: ingredientNames
+            data: autocompleteData
         });
     });
-}
-
-let inputCount = 1;  // used to generate unique IDs for HTML elements
+});
 
 function addIngredientInputs() {
     inputCount++;
@@ -50,12 +56,40 @@ function addIngredientInputs() {
     $("#ingredient-section").append(newInputs);
 
     // set up autocomplete again
-    autoComplete();
+    $('input.autocomplete').autocomplete({
+        data: autocompleteData
+    });
 }
 
 function removeIngredientInputs() {
     $(this).closest('.ingredient-inputs').remove();
 }
 
+function addNewRecipe() {
+    event.preventDefault();
+
+    // get all of the amounts and all of the ingredients chosen
+    const name = $("#recipe-name").val().trim();
+    const ingredientAmounts = $(".ingredient-amount");
+    const ingredientNames = $(".ingredient-name");
+    const instructions = $("#recipe-instructions").val().trim();
+    const imageFileName = $("#recipe-image-filename").val().trim();
+
+    console.log({name, ingredientAmounts, ingredientNames, instructions, imageFileName});
+    // for each ingredient name:
+    // if the ingredient isn't in the existingIngredients array, add it to a newIngredients array
+    // let newIngredients = [];
+    // const newIngredient = {ingredient_name: ingredientName};
+    // newIngredients.push(newIngredient);
+
+    // create an Inrgredient for each newIngredient
+    // Ingredient.bulkCreate(newIngredients);
+
+    // create the Recipe
+
+    // create the RecipeIngredient
+}
+
+$(".add-recipe-form").on('submit', addNewRecipe);
 $(".add-ingredient").on('click', addIngredientInputs);
 $(".remove-ingredient").on('click', removeIngredientInputs);
