@@ -5,7 +5,7 @@ const { Recipe, Ingredient, RecipeIngredient, User } = require('../../models');
 // GET All Recipes
 router.get('/', (req, res) => {
     Recipe.findAll({
-        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating', 'rating_count'],
+        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name'],
         include: [
             {
                 model: User,
@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Recipe.findOne({
         where: { recipe_id : req.params.id },
-        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name', 'rating'],
+        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name'],
         include: [
             {
                 model: User,
@@ -96,9 +96,7 @@ router.get('/:id', (req, res) => {
 //     "recipe_name": "Sangria",
 //     "instructions": "Take some wine and some fruit and go to Spain.  Mix it all together and have a great time.",
 //     "user_id": "2",
-//     "image_file_name": "https://i.pinimg.com/originals/e2/8d/d6/e28dd65b6d34ee283526242b4313dc70.jpg",
-//     "rating": "3.6",
-//     "rating_count": "3"
+//     "image_file_name": "https://i.pinimg.com/originals/e2/8d/d6/e28dd65b6d34ee283526242b4313dc70.jpg"
 // }
 
 router.post('/', (req, res) => {
@@ -107,8 +105,6 @@ router.post('/', (req, res) => {
         instructions: req.body.instructions,
         user_id: req.body.user_id,
         image_file_name: req.body.image_file_name,
-        rating: req.body.rating,
-        rating_count: req.body.rating_count,
     })
     .then(dbUserData => {
         req.session.save(() => {
@@ -116,8 +112,6 @@ router.post('/', (req, res) => {
           req.session.instructions = dbUserData.instructions;
           req.session.user_id = dbUserData.user_id;
           req.session.image_file_name = dbUserData.image_file_name;
-          req.session.rating = dbUserData.rating;
-          req.session.rating_count = dbUserData.rating_count;
           res.json(dbUserData);
         });
     })
@@ -134,8 +128,6 @@ router.post('/', (req, res) => {
 //     "instructions": "Mostly juice but pretty good regardless.",
 //     "user_id": "2",
 //     "image_file_name": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2020/05/Red-Sangria-7.jpg",
-//     "rating": "3.6",
-//     "rating_count": "3"
 // }
 // This gets you a 200 respose
 router.put('/:id', (req, res) => {
