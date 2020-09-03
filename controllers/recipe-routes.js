@@ -10,7 +10,7 @@ router.get('/add', withAuth, (req, res) => {
     });
 });
 
-// route for the user page
+// route for the recipe page
 router.get('/:recipe_id', (req, res) => {
     Recipe.findOne({
         where: { recipe_id : req.params.recipe_id },
@@ -39,27 +39,30 @@ router.get('/:recipe_id', (req, res) => {
         ],
     })
     .then(loadedRecipe => {
-        let recipeData;
+        let templateData;
         if (!loadedRecipe) {
-            recipeData = {
+            templateData = {
                 no_hero: true,
-                error: "Sorry, this recipe couldn't be loaded!"
+                include_homepage_button: true,
+                error: "Sorry, this recipe couldn't be loaded!",
+                loggedIn: req.session.loggedIn
             }
         } else {
             const recipe = loadedRecipe.get({ plain: true })
-            recipeData = {
+            templateData = {
                 hero_title: recipe.recipe_name,
                 hero_subtitle: recipe.User.username,
-                username: recipe.User.username,
                 image_file_name: recipe.image_file_name,
                 instructions: recipe.instructions,
                 ingredients: recipe.recipe_ingredients,
+                loggedIn: req.session.loggedIn,
                 rating: recipe.rating,
                 rating_count: recipe.rating_count,
-                loggedIn: req.session.loggedIn
+                recipe_id: recipe.recipe_id,
+                username: recipe.User.username
             }
         }
-        res.render('single_recipe', recipeData);
+        res.render('single_recipe', templateData);
     })
     .catch(err => {
         console.log(err);
