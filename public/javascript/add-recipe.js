@@ -8,7 +8,7 @@ $(document).ready(() => {
     .done((ingredients) => {
 
         // store the ingredient names so that we don't need to run another request
-        existingIngredients = ingredientNames.map((ingredient) => ingredient.name);
+        existingIngredients = ingredients.map((ingredient) => ingredient.ingredient_name.toLowerCase());
 
         // set up the options for autocomplete
         $.each(ingredients, function(index, ingredient) {
@@ -23,7 +23,7 @@ $(document).ready(() => {
     });
 });
 
-function addIngredientInputs() {
+async function addIngredientInputs() {
     inputCount++;
 
     // copy the ingredient inputs section
@@ -38,8 +38,8 @@ function addIngredientInputs() {
     amountLabel.attr('for', amountId);
 
     // update the name value and id
-    const nameInput = newInputs.find("input.ingredient-amount");
-    const nameLabel = newInputs.find("label.ingredient-amount-label");
+    const nameInput = newInputs.find("input.ingredient-name");
+    const nameLabel = newInputs.find("label.ingredient-name-label");
 
     const nameId = `ingredient-name-${inputCount}`;
     nameInput.attr('id', nameId);
@@ -70,17 +70,13 @@ function addNewRecipe() {
 
     // get all of the amounts and all of the ingredients chosen
     const name = $("#recipe-name").val().trim();
-    const ingredientAmounts = $(".ingredient-amount");
-    const ingredientNames = $(".ingredient-name");
     const instructions = $("#recipe-instructions").val().trim();
     const imageFileName = $("#recipe-image-filename").val().trim();
 
-    console.log({name, ingredientAmounts, ingredientNames, instructions, imageFileName});
-    // for each ingredient name:
-    // if the ingredient isn't in the existingIngredients array, add it to a newIngredients array
-    // let newIngredients = [];
-    // const newIngredient = {ingredient_name: ingredientName};
-    // newIngredients.push(newIngredient);
+    // get the amounts, ingredients, and new ingredients to create
+    const ingredientAmounts = $(".ingredient-inputs .ingredient-amount").map((index, el) => el.value.trim().toLowerCase());
+    const ingredientNames = $(".ingredient-inputs .ingredient-name").map((index, el) => el.value.trim().toLowerCase());
+    const newIngredientNames = ingredientNames.filter((index, ingredientName) => !existingIngredients.includes(ingredientName));
 
     // create an Inrgredient for each newIngredient
     // Ingredient.bulkCreate(newIngredients);
