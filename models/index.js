@@ -3,6 +3,7 @@ const Ingredient = require('./Ingredient');
 const Recipe = require('./Recipe');
 const RecipeIngredient = require('./RecipeIngredient');
 const User = require('./User');
+const UserRecipeRating = require('./UserRecipeRating')
 
 // User hasMany recipes, Recipe belongsTo one User
 User.hasMany(Recipe, {
@@ -43,6 +44,16 @@ RecipeIngredient.belongsTo(Recipe, {
 RecipeIngredient.belongsTo(Ingredient, {
   foreignKey: 'ingredient_id'
 });
+
+// UserRecipeRating belongs to User and Recipe
+UserRecipeRating.belongsTo(User, {
+  foreignKey: 'user_id'
+});
+
+UserRecipeRating.belongsTo(Recipe, {
+  foreignKey: 'recipe_id'
+});
+
 
 // export models
 module.exports = {
