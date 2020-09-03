@@ -13,7 +13,7 @@ router.get('/',( reg, res) => {
             {
                 model: Recipe,
                 attributes: ['recipe_id'],
-                as: 'ingredients',
+                as: 'recipe_ingredients',
                 through: {
                     attributes: ['amount'],
                     as: 'ingredient_amount'
@@ -49,16 +49,13 @@ router.get('/:id',( req, res) => {
     });
 });
 
-
-// POST to add an ingredient
-// /api/ingredient
+// POST to find an ingredient or create it if it doesn't exist
+// /api/ingredient/findorcreate
 // Required body:
-// {
-//     "ingredient_name": "orange peel"
-// }
-router.post('/', (req, res) => {
-    Ingredient.create({
-        ingredient_name: req.body.ingredient_name,
+// {"ingredient_name": "orange peel"}
+router.post('/findorcreate', (req, res) => {
+    Ingredient.findOrCreate({
+        where: { ingredient_name: req.body.ingredient_name }
     })
     .then(dbUserData => {
         req.session.save(() => {
