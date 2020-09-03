@@ -98,8 +98,6 @@ router.post('/', (req, res) => {
 //     "instructions": "Mostly juice but pretty good regardless.",
 //     "user_id": "2",
 //     "image_file_name": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2020/05/Red-Sangria-7.jpg",
-//     "rating": "3.6",
-//     "rating_count": "3"
 // }
 // This gets you a 200 respose
 router.put('/:id', (req, res) => {

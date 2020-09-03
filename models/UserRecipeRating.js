@@ -11,10 +11,12 @@ UserRecipeRating.init(
             allowNull: false,
             autoIncrement: true
         }, 
+        rating: {
+            type: DataTypes.DECIMAL,
+        },
         user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            autoIncrement: true,
             references: {
                 model: 'User',
                 key: 'user_id'
@@ -22,15 +24,10 @@ UserRecipeRating.init(
         }, 
         recipe_id: {
             type: DataTypes.INTEGER,
-            autoIncrement: true, 
             references: {
                 model: 'recipe',
                 key: 'recipe_id'
             }
-        },
-        rating: {
-            type: DataTypes.DECIMAL,
-            allowNull: false
         },
     },
     {
@@ -42,5 +39,5 @@ UserRecipeRating.init(
     }
 );
 
-module.exports = Recipe;
+module.exports = UserRecipeRating;
 
