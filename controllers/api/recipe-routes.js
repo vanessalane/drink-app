@@ -42,47 +42,6 @@ router.get('/', (req, res) => {
     });
 })
 
-// GET one Recipe by user_id
-router.get('/user/:id', (req, res) => {
-    Recipe.findOne({
-        where: { user_id : req.params.id },
-        attributes: [
-            'recipe_id',
-            'recipe_name',
-            'instructions',
-            'image_file_name',
-            [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
-            [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
-        ],
-        include: [
-            {
-                model: User,
-                attributes: ['username']
-            },
-            {
-                model: Ingredient,
-                attributes: ['ingredient_id', 'ingredient_name'],
-                as: 'recipe_ingredients',
-                through: {
-                    attributes: ['amount'],
-                    as: 'ingredient_amount'
-                }
-            },
-        ],
-    })
-    .then(loadedRecipes => {
-        if (!loadedRecipes){
-            res.status(400).json({message: "No recipe found with that id"});
-            return;
-        }
-        res.json(loadedRecipes)
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
-})
-
 // GET one Recipe
 router.get('/:id', (req, res) => {
     Recipe.findOne({
