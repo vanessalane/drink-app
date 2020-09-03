@@ -3,8 +3,7 @@ const sequelize = require('../config/connection');
 
 class UserRecipeRating extends Model {};
 
-UserRecipeRating.init(
-        {
+UserRecipeRating.init({
         urr_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -13,6 +12,13 @@ UserRecipeRating.init(
         }, 
         rating: {
             type: DataTypes.DECIMAL,
+            allowNull: false,
+            validate: {
+                isDecimal: {
+                    args: true,
+                    msg: "Rating must be a decimal!"
+                }
+            }
         },
         user_id: {
             type: DataTypes.INTEGER,
@@ -24,8 +30,9 @@ UserRecipeRating.init(
         }, 
         recipe_id: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
-                model: 'recipe',
+                model: 'Recipe',
                 key: 'recipe_id'
             }
         },

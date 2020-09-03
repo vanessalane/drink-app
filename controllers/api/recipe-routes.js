@@ -1,10 +1,18 @@
 const router = require('express').Router();
-const { Recipe, Ingredient, RecipeIngredient, User } = require('../../models');
+const sequelize = require('../../config/connection');
+const { Recipe, Ingredient, User } = require('../../models');
 
 // GET All Recipes
 router.get('/', (req, res) => {
     Recipe.findAll({
-        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name'],
+        attributes: [
+            'recipe_id',
+            'recipe_name',
+            'instructions',
+            'image_file_name',
+            [sequelize.literal(`(SELECT COUNT(*) FROM RecipeRating WHERE RecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
+            [sequelize.literal(`(SELECT AVG(rating) FROM RecipeRating WHERE RecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
+        ],
         include: [
             {
                 model: User,
@@ -38,7 +46,14 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Recipe.findOne({
         where: { recipe_id : req.params.id },
-        attributes: ['recipe_id', 'recipe_name', 'instructions', 'image_file_name'],
+        attributes: [
+            'recipe_id',
+            'recipe_name',
+            'instructions',
+            'image_file_name',
+            [sequelize.literal(`(SELECT COUNT(*) FROM RecipeRating WHERE RecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
+            [sequelize.literal(`(SELECT AVG(rating) FROM RecipeRating WHERE RecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
+        ],
         include: [
             {
                 model: User,
