@@ -1,0 +1,85 @@
+{{#if error}}
+    {{> error_card}}
+{{else}}
+<div class="row">
+    <div class="col s12 l5">
+        <div class="card large">
+            {{#if image_file_name}}
+            <div class="card-content recipe-image" style="background-image:url('{{image_file_name}}'); height:100%;"></div>
+            {{else}}
+            <div class="card-content recipe-image" style="background-image:url('../images/placeholder.svg'); height:100%;"></div>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="col s12 l7">
+        <div class="card">
+            <div class="card-content">
+                {{#unless error}}
+                <div>
+                    <p>
+                    <h5 class="deep-orange-text text-darken-2">rating</h5>
+                    <div id="rateYo"></div>
+                    </p>
+                </div>
+                {{/unless}}
+
+                {{#if ingredients}}
+                <div class="margin-top">
+                    <h5 class="deep-orange-text text-darken-2">ingredients</h5>
+                    <p>
+                        <ul class="browser-default">
+                            {{#each ingredients}}
+                            <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
+                            {{/each}}
+                        </ul>
+                    </p>
+                </div>
+                {{/if}}
+
+                {{#if instructions}}
+                <div class="margin-top">
+                    <h5 class="deep-orange-text text-darken-2">instructions</h5>
+                    <p id="instructions">{{instructions}}</p>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="center-align">
+    <a href="/user/{{username}}" class="waves-effect waves-light btn">more recipes by {{username}}</a>
+</div>
+{{/if}}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script>
+    // JS for the rating functionality
+    // docs: https://rateyo.fundoocode.ninja/
+    $(window).ready(() => {
+        $.get("/api/users/active")
+        .done(user_id => {
+            // if the user_id is found, someone has logged in and the rating should be editable
+            const recipe_id = "{{recipe_id}}";
+            const currentRating = "{{rating}}" ? "{{rating}}" : 0;  // default rating is 0 if it doesn't exist
+            $("#rateYo").rateYo({
+                rating: currentRating,
+                onSet: function (newRating, rateYoInstance) {
+                    // add the rating to the db when it's updated
+                    const ratingData = {recipe_id, user_id, rating};
+                    $.post('/api/reciperatings', ratingData)
+                    .done(data => console.log("rated"))
+                    .catch(err => console.log(err.message));
+                }
+            });
+        })
+        .catch(err => {
+            // if the user_id isn't found, no one has logged in and the rating should be editable
+            $("#rateYo").rateYo({
+                rating: "{{rating}}",
+                readOnly: true
+            });
+        })
+    });
+</script>

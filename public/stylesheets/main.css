@@ -51,6 +51,9 @@ nav {
     background-size: cover;
     background-position: center;
 }
+.margin-top {
+    margin-top:  4vh;
+}
 .card .card-content .card-title {
     margin-bottom: 6vh;
 }
@@ -60,6 +63,9 @@ nav {
 .input-field {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+#instructions {
+    white-space: pre-line;
 }
 .recipe-image {
     background-size: cover;
@@ -76,7 +82,7 @@ a:hover{
 nav a:hover {
     opacity: 100%;
 }
-button, input {
+button, input, textarea {
     font-family: 'Alata', sans-serif;
 }
 /* end body content styles */
