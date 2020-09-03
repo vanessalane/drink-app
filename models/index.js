@@ -14,6 +14,28 @@ Recipe.belongsTo(User, {
   foreignKey: 'user_id'
 });
 
+// User Ratings belongToMany Recipes (through UserRecipeRating)
+User.belongsToMany(Recipe, {
+  through: UserRecipeRating,
+  as: 'recipe_rating',
+  foreignKey: 'user_id'
+})
+
+User.hasMany(RecipeIngredient, {
+  foreignKey: 'user_id'
+});
+
+// Recipe Ratings belongToMany Users (through UserRecipeRating)
+Recipe.belongsToMany(User, {
+  through: UserRecipeRating,
+  as: 'recipe_rating',
+  foreignKey: 'recipe_id'
+})
+
+Recipe.hasMany(RecipeIngredient, {
+  foreignKey: 'recipe_id'
+});
+
 // Ingredients belongToMany Recipes (through RecipeIngredient)
 Ingredient.belongsToMany(Recipe, {
   through: RecipeIngredient,
@@ -60,5 +82,6 @@ module.exports = {
   Recipe,
   Ingredient,
   RecipeIngredient,
-  User
+  User,
+  UserRecipeRating
 };

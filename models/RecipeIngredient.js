@@ -37,6 +37,12 @@ RecipeIngredient.init(
         freezeTableName: true,
         underscored: true,
         modelName: 'RecipeIngredient'
+    },
+    {
+        indexes: {
+            unique: true,
+            fields: ['recipe_id', 'ingredient_id']  // shouldn't be able to add the same ingredient multiple times to the same recipe
+        }
     }
 );
 
