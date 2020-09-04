@@ -27,8 +27,7 @@ Recipe.init(
             }
         },
         image_file_name: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
     },
     {

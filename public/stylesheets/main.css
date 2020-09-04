@@ -85,4 +85,8 @@ nav a:hover {
 button, input, textarea {
     font-family: 'Alata', sans-serif;
 }
+.waves-effect {
+
+    white-space: nowrap;
+}
 /* end body content styles */

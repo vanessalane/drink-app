@@ -23,7 +23,7 @@ $(document).ready(() => {
     });
 });
 
-async function addIngredientInputs() {
+async function addIngredientInput() {
     inputCount++;
 
     // copy the ingredient inputs section
@@ -34,7 +34,7 @@ async function addIngredientInputs() {
     let amountLabel = newInputs.find("label.ingredient-amount-label");
     
     const amountId = `ingredient-amount-${inputCount}`;
-    amountInput.attr('id', amountId);
+    amountInput.attr('id', amountId).text("");
     amountLabel.attr('for', amountId);
 
     // update the name value and id
@@ -42,15 +42,15 @@ async function addIngredientInputs() {
     const nameLabel = newInputs.find("label.ingredient-name-label");
 
     const nameId = `ingredient-name-${inputCount}`;
-    nameInput.attr('id', nameId);
+    nameInput.attr('id', nameId).text("");
     nameLabel.attr('for', nameId);
 
     // show the delete button since it's not the first ingredient input
     newInputs.find(".remove-ingredient").removeClass('hidden');
 
     // add event listeners to the buttons
-    newInputs.find(".add-ingredient").on("click", addIngredientInputs);
-    newInputs.find(".remove-ingredient").on("click", removeIngredientInputs);
+    newInputs.find(".add-ingredient").on("click", addIngredientInput);
+    newInputs.find(".remove-ingredient").on("click", removeIngredientInput);
 
     // append the copy to the ingredients section
     $("#ingredient-section").append(newInputs);
@@ -61,7 +61,7 @@ async function addIngredientInputs() {
     });
 }
 
-function removeIngredientInputs() {
+function removeIngredientInput() {
     $(this).closest('.ingredient-inputs').remove();
 }
 
@@ -71,7 +71,8 @@ async function addNewRecipe() {
     // get all of the amounts and all of the ingredients chosen
     const recipe_name = $("#recipe-name").val().trim();
     const instructions = $("#recipe-instructions").val().trim();
-    const image_file_name = $("#recipe-image-filename").val().trim();
+    const image_file_name = $("#image-file-name").val();
+
     const newRecipe = {
         recipe_name,
         instructions,
@@ -108,14 +109,14 @@ async function addNewRecipe() {
                     // redirect to the new recipe page
                     document.location.replace(`/recipe/${recipe_id}`);
                 })
-                .catch(err => console.log(`Couldn't create a RecipeIngredient: ${err}`));
+                .catch(err => console.log(`Couldn't create a RecipeIngredient: ${JSON.stringify(err)}`));
             })
-            .catch(err => console.log(`Couldn't find or create an Ingredient: ${err}`));
+            .catch(err => console.log(`Couldn't find or create an Ingredient: ${JSON.stringify(err)}`));
         })
     })
-    .catch(err => console.log(`Couldn't create a Recipe: ${err}`));
+    .catch(err => console.log(`Couldn't create a Recipe: ${JSON.stringify(err)}`));
 }
 
 $(".add-recipe-form").on('submit', addNewRecipe);
-$(".add-ingredient").on('click', addIngredientInputs);
-$(".remove-ingredient").on('click', removeIngredientInputs);
+$(".add-ingredient").on('click', addIngredientInput);
+$(".remove-ingredient").on('click', removeIngredientInput);
