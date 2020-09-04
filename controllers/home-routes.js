@@ -34,7 +34,8 @@ router.get('/', (req, res) => {
                 hero_eyebrow: "it's time to",
                 hero_title: "drink app",
                 recipes,
-                loggedIn: req.session.loggedIn
+                loggedIn: req.session.loggedIn,
+                scroll_top_button: true
             };
         }
         res.render('multiple_recipes', templateData);
