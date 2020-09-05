@@ -1,6 +1,5 @@
 * {
     font-family: 'Alata', sans-serif;
-    text-transform: lowercase !important;
     scroll-behavior: smooth;
 }
 
@@ -81,6 +80,9 @@ a:hover{
 }
 nav a:hover {
     opacity: 100%;
+}
+button {
+    white-space: nowrap;
 }
 button, input, textarea {
     font-family: 'Alata', sans-serif;

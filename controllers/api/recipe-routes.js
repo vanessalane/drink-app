@@ -88,7 +88,7 @@ router.get('/:id', (req, res) => {
 // {
 //     "recipe_name": "Sangria",
 //     "instructions": "Take some wine and some fruit and go to Spain.  Mix it all together and have a great time.",
-//     "image_file_name": "https://i.pinimg.com/originals/e2/8d/d6/e28dd65b6d34ee283526242b4313dc70.jpg",
+//     "image_file_name": "/sangria.jpg",
 //     "ingredients": [
 //         {
 //             "ingredient_name": "orange",
@@ -102,94 +102,69 @@ router.get('/:id', (req, res) => {
 // }
 // This gets you a 200 respose
 router.post('/', (req, res) => {
+        console.log("******* CREATING A NEW RECIPE *******")
 
-    // create the recipe
-    Recipe.create({
-        recipe_name: req.body.recipe_name,
-        instructions: req.body.instructions,
-        image_file_name: req.body.image_file_name,
-        user_id: req.body.user_id
-        // user_id: req.session.user_id
-    })
-    .then(dbRecipeData => {
-        console.log({"New dbRecipeData": dbRecipeData.dataValues});
-
-        // create the rating
-        UserRecipeRating.create({
-            recipe_id: dbRecipeData.recipe_id,
-            user_id: req.body.user_id
+        // create the recipe
+        Recipe.create({
+            recipe_name: req.body.recipe_name,
+            instructions: req.body.instructions,
+            image_file_name: req.body.image_file_name,
+            user_id: req.session.user_id
         })
-        .then(dbUserRecipeRatingData => {
-            console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues});
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        .then(dbRecipeData => {
+            console.log({"New dbRecipeData": dbRecipeData.dataValues});
 
-
-        // create the ingredients
-        const ingredients = req.body.ingredients;
-        ingredients.forEach(ingredient => {
-            Ingredient.create({
-                ingredient_name: ingredient.ingredient_name
+            // create the rating
+            UserRecipeRating.create({
+                recipe_id: dbRecipeData.recipe_id,
+                user_id: req.session.user_id
             })
-            .then(dbIngredientData => {
-                console.log({"New Ingredient": dbIngredientData.dataValues});
+            .then(dbUserRecipeRatingData => {
+                console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues});
+            })
+            .catch(err => {
+                console.log(err);
+            })
 
-                // associate the recipe with an ingredient
-                RecipeIngredient.create({
-                    ingredient_id: dbIngredientData.ingredient_id,
-                    recipe_id: dbRecipeData.recipe_id,
-                    amount: ingredient.ingredient_amount
+            // create the ingredients
+            const ingredients = req.body.ingredients;
+            ingredients.forEach(ingredient => {
+                Ingredient.findOrCreate({
+                    where: {ingredient_name: ingredient.ingredient_name}
                 })
-                .then(dbRecipeIngredientData => {
-                    console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues});
+                .then(dbIngredientData => {
+                    if (dbIngredientData[0]._options.isNewRecord) {
+                        console.log({"New Ingredient": dbIngredientData[0].dataValues});
+                    } else {
+                        console.log({"Found Ingredient": dbIngredientData[0].dataValues});
+                    }
+
+                    // associate the recipe with an ingredient
+                    RecipeIngredient.create({
+                        ingredient_id: dbIngredientData[0].ingredient_id,
+                        recipe_id: dbRecipeData.recipe_id,
+                        amount: ingredient.ingredient_amount
+                    })
+                    .then(dbRecipeIngredientData => {
+                        console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues});
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json(err);
+                    })
                 })
                 .catch(err => {
                     console.log(err);
                     res.status(500).json(err);
                 })
             })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json(err);
-            })
+            res.json(dbRecipeData);
         })
-        res.json(dbRecipeData);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-   });
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
-// PUT /api/users/1
-// Expected body:
-// {
-//     "recipe_name": "Sangria but different",
-//     "instructions": "Mostly juice but pretty good regardless.",
-//     "user_id": "2",
-//     "image_file_name": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2020/05/Red-Sangria-7.jpg",
-// }
-// This gets you a 200 respose
-router.put('/:id', (req, res) => {
-    Recipe.update(req.body, {
-        individualHooks: true,
-        where: {
-            recipe_id: req.params.id
-        }
-    })
-    .then(dbRecipeData => {
-        if (!dbRecipeData[0]) {
-            res.status(404).json({ message: 'No recipe found with this id' });
-            return;
-        }
-        res.json(dbRecipeData);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
-});
 
 module.exports = router;
