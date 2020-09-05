@@ -29,12 +29,12 @@ router.get('/', (req, res) => {
             },
         ],
     })
-    .then(loadedRecipes => {
-        if (!loadedRecipes){
+    .then(dbRecipeData => {
+        if (!dbRecipeData){
             res.status(400).json({message: "No recipes found"});
             return;
         }
-        res.json(loadedRecipes)
+        res.json(dbRecipeData)
     })
     .catch(err => {
         console.log(err);
@@ -70,12 +70,12 @@ router.get('/:id', (req, res) => {
             },
         ],
     })
-    .then(loadedRecipes => {
-        if (!loadedRecipes){
+    .then(dbRecipeData => {
+        if (!dbRecipeData){
             res.status(400).json({message: "No recipe found with that id"});
             return;
         }
-        res.json(loadedRecipes)
+        res.json(dbRecipeData)
     })
     .catch(err => {
         console.log(err);
@@ -99,7 +99,7 @@ router.post('/', (req, res) => {
         image_file_name: req.body.image_file_name,
         user_id: req.session.user_id
     })
-    .then(dbUserData => res.json(dbUserData))
+    .then(dbRecipeData => res.json(dbRecipeData))
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -116,18 +116,18 @@ router.post('/', (req, res) => {
 // }
 // This gets you a 200 respose
 router.put('/:id', (req, res) => {
-    Recipe.update (req.body, {
+    Recipe.update(req.body, {
         individualHooks: true,
         where: {
             recipe_id: req.params.id
         }
     })
-    .then(dbUserData => {
-        if (!dbUserData[0]) {
+    .then(dbRecipeData => {
+        if (!dbRecipeData[0]) {
             res.status(404).json({ message: 'No recipe found with this id' });
             return;
         }
-        res.json(dbUserData);
+        res.json(dbRecipeData);
     })
     .catch(err => {
         console.log(err);

@@ -19,11 +19,10 @@ router.get('/active', (req, res) => {
     // Access session to get the current user_id
     if (!req.session.user_id) {
         res.status(404).json({message: "No user_id found for the current session"});
-    } else {
-        res.json(req.session.user_id);
+        return;
     }
+    res.json(req.session.user_id);
 });
-
 
 // GET .api/users/1
 router.get('/:user_id', (req, res) => {

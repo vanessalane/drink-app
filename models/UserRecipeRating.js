@@ -7,8 +7,8 @@ UserRecipeRating.init({
         urr_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            allowNull: false,
-            autoIncrement: true
+            autoIncrement: true,
+            allowNull: false
         }, 
         rating: {
             type: DataTypes.DECIMAL,
