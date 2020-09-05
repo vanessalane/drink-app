@@ -71,48 +71,26 @@ async function addNewRecipe() {
     // get all of the amounts and all of the ingredients chosen
     const recipe_name = $("#recipe-name").val().trim();
     const instructions = $("#recipe-instructions").val().trim();
-    const image_file_name = $("#image-file-name").val();
+    const image_file_name = $("#recipe-image-filename").val().trim();
+
+    let ingredients = $(".ingredient-inputs").map((index, element) => {
+        return {
+            ingredient_amount: $(element).find(".ingredient-amount").val().trim().toLowerCase(),
+            ingredient_name: $(element).find(".ingredient-name").val().trim().toLowerCase()
+        }
+    }).get();
 
     const newRecipe = {
         recipe_name,
         instructions,
-        image_file_name
+        image_file_name,
+        ingredients
     }
 
     // create the Recipe
     $.post('/api/recipes', newRecipe)
     .done(newRecipe => {
-        console.log(`Successfully created a recipe: ${newRecipe}`);
-
-        // get the amounts and ingredient names
-        $(".ingredient-inputs").each(() => {
-
-            // figure out the amount and name for the ingredient
-            const amount = $(this).find(".ingredient-amount").val().trim().toLowerCase();
-            const ingredient_name = $(this).find(".ingredient-name").val().trim().toLowerCase();
-            
-            // find or create the ingredient in the db
-            $.post('/api/ingredients/findorcreate', {ingredient_name})
-            .done(newIngredients => {
-                console.log(`Successfully found or created these ingredients: ${JSON.stringify(newIngredients)}`);
-
-                // get data for the new RecipeIngredient record
-                const recipe_id = newRecipe.recipe_id
-                const ingredient_id = newIngredients[0].ingredient_id;
-                const newRecipeIngredient = {ingredient_id, amount, recipe_id};
-
-                // add the new RecipeIngredient to the RecipeIngredients table
-                $.post('/api/recipeingredients', newRecipeIngredient)
-                .done(newRecipeIngredient => {
-                    console.log(`Successfully associated recipe and ingredients: ${newRecipeIngredient}`)
-
-                    // redirect to the new recipe page
-                    document.location.replace(`/recipe/${recipe_id}`);
-                })
-                .catch(err => console.log(`Couldn't create a RecipeIngredient: ${JSON.stringify(err)}`));
-            })
-            .catch(err => console.log(`Couldn't find or create an Ingredient: ${JSON.stringify(err)}`));
-        })
+        document.location.replace(`/recipe/${newRecipe.recipe_id}`);
     })
     .catch(err => console.log(`Couldn't create a Recipe: ${JSON.stringify(err)}`));
 }

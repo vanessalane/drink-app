@@ -12,7 +12,7 @@ const { UserRecipeRating } = require('../../models');
 // This gets you a 200 respose
 router.post('/', (req, res) => {
     UserRecipeRating.upsert(req.body)
-    .then(createdRating => res.json(createdRating))
+    .then(dbUserRecipeRatingData => res.json(dbUserRecipeRatingData))
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
