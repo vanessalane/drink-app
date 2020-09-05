@@ -1,4 +1,9 @@
 const router = require('express').Router();
+const aws = require('aws-sdk');
+const fs = require('fs');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
 const sequelize = require('../../config/connection');
 const { Ingredient, Recipe, RecipeIngredient, User, UserRecipeRating } = require('../../models');
 
@@ -88,7 +93,7 @@ router.get('/:id', (req, res) => {
 // {
 //     "recipe_name": "Sangria",
 //     "instructions": "Take some wine and some fruit and go to Spain.  Mix it all together and have a great time.",
-//     "image_file_name": "/sangria.jpg",
+//     "filename": "/sangria.jpg",
 //     "ingredients": [
 //         {
 //             "ingredient_name": "orange",
@@ -101,69 +106,125 @@ router.get('/:id', (req, res) => {
 //     ]
 // }
 // This gets you a 200 respose
-router.post('/', (req, res) => {
-        console.log("******* CREATING A NEW RECIPE *******")
 
-        // create the recipe
-        Recipe.create({
-            recipe_name: req.body.recipe_name,
-            instructions: req.body.instructions,
-            image_file_name: req.body.image_file_name,
+// Multer Middleware
+var upload = multer({
+    dest: __dirname + './uploads/',
+    limits: {fileSize: 1000000, files:1},
+});
+
+router.post('/', upload.single('imageFile'), (req, res) => {
+    console.log({
+        body: req.body,
+        recipe_name: req.body.recipeName,
+        instructions: req.body.instructions,
+        files: req.files
+    })
+
+    let s3Data = {
+        image_url: '',
+        image_file_name: ''
+    };
+
+    if (req.files) {
+        console.log("******* UPLOADING THE FILE TO AWS *******")
+        var file = req.files.file-input;
+
+        // Set the AWS config
+        aws.config.update({
+            region: process.env.S3_REGION,
+            credentials: {
+                accessKeyId: process.env.S3_ACCESS_KEY,
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+            }
+        });
+
+        // create S3 service object
+        const s3 = new aws.S3();
+        const image_id = '10000' + parseInt(Math.random() * 10000000);
+        const params = {
+            ACL: 'public-read',
+            Bucket: process.env.S3_BUCKET,
+            Body: fs.createReadStream(file.path),
+            Key: `recipe_images/${image_id}`
+        };
+
+        // upload the file
+        s3.upload(params, function(s3Err, data) {
+            if (s3Err) throw s3Err;
+            s3Data = data
+        })
+    }
+
+    // create the recipe
+    console.log("******* CREATING A NEW RECIPE *******")
+    Recipe.create({
+        recipe_name: req.body.recipeName,
+        instructions: req.body.instructions,
+        image_url: s3Data.image_url,
+        image_file_name: s3Data.image_file_name,
+        user_id: req.session.user_id
+    })
+    .then(dbRecipeData => {
+        console.log({"New dbRecipeData": dbRecipeData.dataValues});
+
+        // create the rating
+        UserRecipeRating.create({
+            recipe_id: dbRecipeData.recipe_id,
             user_id: req.session.user_id
         })
-        .then(dbRecipeData => {
-            console.log({"New dbRecipeData": dbRecipeData.dataValues});
+        .then(dbUserRecipeRatingData => {
+            console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues});
+        })
+        .catch(err => {
+            console.log(err);
+        })
 
-            // create the rating
-            UserRecipeRating.create({
-                recipe_id: dbRecipeData.recipe_id,
-                user_id: req.session.user_id
+        // create the ingredients
+        const ingredientNames = Array.isArray(req.body.ingredientName) ? req.body.ingredientName : [req.body.ingredientName];
+        const ingredientAmounts = Array.isArray(req.body.ingredientAmount) ? req.body.ingredientAmount : [req.body.ingredientAmount];
+        console.log({
+            ingredientNames,
+            ingredientAmounts
+        })
+        ingredientNames.forEach((ingredientName, i, ingredientNames) => {
+            Ingredient.findOrCreate({
+                where: {ingredient_name: ingredientName}
             })
-            .then(dbUserRecipeRatingData => {
-                console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues});
-            })
-            .catch(err => {
-                console.log(err);
-            })
+            .then(dbIngredientData => {
+                if (dbIngredientData[0]._options.isNewRecord) {
+                    console.log({"New Ingredient": dbIngredientData[0].dataValues});
+                } else {
+                    console.log({"Found Ingredient": dbIngredientData[0].dataValues});
+                }
 
-            // create the ingredients
-            const ingredients = req.body.ingredients;
-            ingredients.forEach(ingredient => {
-                Ingredient.findOrCreate({
-                    where: {ingredient_name: ingredient.ingredient_name}
+                console.log({i, ingredientAmounts});
+
+                // associate the recipe with an ingredient
+                RecipeIngredient.create({
+                    ingredient_id: dbIngredientData[0].ingredient_id,
+                    recipe_id: dbRecipeData.recipe_id,
+                    amount: ingredientAmounts[i]
                 })
-                .then(dbIngredientData => {
-                    if (dbIngredientData[0]._options.isNewRecord) {
-                        console.log({"New Ingredient": dbIngredientData[0].dataValues});
-                    } else {
-                        console.log({"Found Ingredient": dbIngredientData[0].dataValues});
-                    }
-
-                    // associate the recipe with an ingredient
-                    RecipeIngredient.create({
-                        ingredient_id: dbIngredientData[0].ingredient_id,
-                        recipe_id: dbRecipeData.recipe_id,
-                        amount: ingredient.ingredient_amount
-                    })
-                    .then(dbRecipeIngredientData => {
-                        console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues});
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json(err);
-                    })
+                .then(dbRecipeIngredientData => {
+                    console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues});
                 })
                 .catch(err => {
                     console.log(err);
                     res.status(500).json(err);
                 })
             })
-            res.json(dbRecipeData);
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            })
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+        res.json(dbRecipeData)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
 

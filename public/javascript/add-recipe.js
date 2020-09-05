@@ -67,32 +67,13 @@ function removeIngredientInput() {
 
 async function addNewRecipe() {
     event.preventDefault();
+    var formData = $("form").serialize();
 
-    // get all of the amounts and all of the ingredients chosen
-    const recipe_name = $("#recipe-name").val().trim();
-    const instructions = $("#recipe-instructions").val().trim();
-    const image_file_name = $("#recipe-image-filename").val().trim();
-
-    let ingredients = $(".ingredient-inputs").map((index, element) => {
-        return {
-            ingredient_amount: $(element).find(".ingredient-amount").val().trim().toLowerCase(),
-            ingredient_name: $(element).find(".ingredient-name").val().trim().toLowerCase()
-        }
-    }).get();
-
-    const newRecipe = {
-        recipe_name,
-        instructions,
-        image_file_name,
-        ingredients
-    }
-
-    // create the Recipe
-    $.post('/api/recipes', newRecipe)
+    $.post('/api/recipes', formData)
     .done(newRecipe => {
         document.location.replace(`/recipe/${newRecipe.recipe_id}`);
     })
-    .catch(err => console.log(`Couldn't create a Recipe: ${JSON.stringify(err)}`));
+    .catch(err => console.log(err));
 }
 
 $(".add-recipe-form").on('submit', addNewRecipe);

@@ -2,14 +2,13 @@ const router = require('express').Router();
 const { UserRecipeRating } = require('../../models');
 
 // POST /api/reciperatings
-// add or update aa new rating for a given recipe
+// add or update a new rating for a given recipe
 // Expected body:
 // {
 //     "user_id": "1",
 //     "recipe_id": "1",
 //     "rating": "1.0"
 // }
-// This gets you a 200 respose
 router.post('/', (req, res) => {
     UserRecipeRating.upsert(req.body)
     .then(dbUserRecipeRatingData => res.json(dbUserRecipeRatingData))
