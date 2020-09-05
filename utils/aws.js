@@ -2,6 +2,7 @@ const aws = require('aws-sdk');
 const fs = require('fs');
 
 function uploadToAWS(fileName, res) {
+
     // Set the config
     aws.config.update({
         region: process.env.S3_REGION,
@@ -13,7 +14,6 @@ function uploadToAWS(fileName, res) {
 
     // create S3 service object
     const s3 = new aws.S3();
-    let uploadResponse;
 
     // read the file
     fs.readFile(fileName, (err, data) => {
@@ -38,7 +38,6 @@ function uploadToAWS(fileName, res) {
             })
         });
     });
-    return uploadResponse;
 }
 
 // add logic to remove file from AWS, too
