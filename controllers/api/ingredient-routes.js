@@ -21,12 +21,12 @@ router.get('/',( reg, res) => {
             },
         ],
     })
-        .then(dbPostData => res.json(dbPostData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-    })
+    .then(dbIngredientData => res.json(dbIngredientData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+})
 
 // GET one ingredient by ingredient_id
 // /api/ingredients/1
@@ -36,12 +36,12 @@ router.get('/:id',( req, res) => {
             ingredient_id: req.params.id
         }
     })
-    .then(dbUserData => {
-        if(!dbUserData) {
+    .then(dbIngredientData => {
+        if(!dbIngredientData) {
             res.status(404).json({ message: 'No ingredient found with this id' });
             return;
         }
-        res.json(dbUserData);
+        res.json(dbIngredientData);
     })
     .catch(err => {
         console.log(err);
@@ -57,12 +57,8 @@ router.post('/findorcreate', (req, res) => {
     Ingredient.findOrCreate({
         where: { ingredient_name: req.body.ingredient_name }
     })
-    .then(dbUserData => {
-        req.session.save(() => {
-            req.session.ingredient_id = dbUserData.ingredient_id;
-            req.session.ingredient_name = dbUserData.ingredient_name;
-            res.json(dbUserData);
-        });
+    .then(dbIngredientData => {
+        res.json(dbIngredientData);
     })
     .catch(err => {
         console.log(err);

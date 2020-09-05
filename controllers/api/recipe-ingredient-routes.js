@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { RecipeIngredient } = require('../../models');
 
-// POST /api/recipeingredient
+// PUT /api/recipeingredient
 // Expected body:
 // {
 //     "recipe_id": "1",
@@ -10,8 +10,8 @@ const { RecipeIngredient } = require('../../models');
 // }
 // This gets you a 200 respose
 router.post('/', (req, res) => {
-    RecipeIngredient.create(req.body)
-    .then(dbUserData => res.json(dbUserData))
+    RecipeIngredient.upsert(req.body)
+    .then(dbRecipeIngredientData => res.json(dbRecipeIngredientData))
     .catch(err => {
         console.log(err);
         res.status(500).json(`Could not create RecipeIngredient: ${err}`);

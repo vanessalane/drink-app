@@ -12,9 +12,9 @@ User.init(
     {
         user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            allowNull: false
         },
         username: {
             type: DataTypes.STRING,
