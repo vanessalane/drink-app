@@ -14,7 +14,7 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const sess = {
-  secret: process.env.SECRET,
+  secret: process.env.SESSION_SECRET,
   cookie: { maxAge: 8 * 60 * 60 * 1000 },  // session expires after 8 hours
   resave: false,
   rolling: true,
