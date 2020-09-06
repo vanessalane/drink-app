@@ -114,11 +114,12 @@ router.get('/:id', (req, res) => {
 })
 
 // POST /api/recipes
+// this POST will upload files to s3 if they've been submitted via the "Add a Recipe" form.
+// It's not possible to update the image url or name through this endpoint.
 // Expected body:
 // {
 //     "recipe_name": "Sangria",
 //     "instructions": "Take some wine and some fruit and go to Spain.  Mix it all together and have a great time.",
-//     "filename": "/sangria.jpg",
 //     "ingredients": [
 //         {
 //             "ingredient_name": "orange",
