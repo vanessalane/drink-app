@@ -21,14 +21,15 @@
   <div class="navbar-fixed">
   <nav class="white">
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo teal-text text-darken-4 hide-on-med-and-down">drink app</a>
+      <a href="/" class="brand-logo yellow-text text-darken-4 hide-on-med-and-down">drink app</a>
       <a href="#" data-target="mobile-menu" class="sidenav-trigger grey-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         {{#if loggedIn}}
+          <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">logged in as {{loggedInUser}}</a></li>
           <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
           <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
         {{ else }}
-          <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
+          <li><a href="/login" class="grey-text text-darken-4">log in or sign up</a></li>
         {{/if}}
       </ul>
     </div>
@@ -36,26 +37,30 @@
   </div>
 
   <ul class="sidenav" id="mobile-menu">
-    <li><a href="/" class="grey-text text-darken-3"><h5>drink app</h5></a></li>
+    <li><a href="/" class="yellow-text text-darken-4"><h5>drink app</h5></a></li>
     {{#if loggedIn}}
+      <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">logged in as {{loggedInUser}}</a></li>
       <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
       <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
     {{ else }}
-      <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
+      <li><a href="/login" class="grey-text text-darken-4">log in or sign up</a></li>
     {{/if}}
     </li>
   </ul>
 
   <main class="blue-grey lighten-5">
     {{#unless no_hero}}
-      <div class="hero-container valign-wrapper blue-grey darken-4">
-            <div class="row hero-content-container valign-wrapper">
-              <div class="hero-content col l6 s12 offset-l3 hero-title">
-                <h3 class="grey-text text-lighten-4 center-align">{{ hero_eyebrow }}</h3>
-                <h1 class="amber-text text-lighten-4 center-align hero-title">{{ hero_title }}</h1>
-                <h3 class="grey-text text-lighten-4 center-align">{{ hero_subtitle }}</h3>
-              </div>
+      {{#if big_hero}}
+      <div class="hero-container big-hero valign-wrapper blue-grey darken-4">
+      {{else}}
+      <div class="hero-container small-hero valign-wrapper blue-grey darken-4">
+      {{/if}}
+          <div class="hero-content-container valign-wrapper">
+            <div class="hero-content hero-title">
+              <h2 class="grey-text text-lighten-4 center-align">{{ hero_eyebrow }}</h2>
+              <h1 class="yellow-text text-darken-3 center-align hero-title">{{ hero_title }}</h2>
             </div>
+          </div>
       </div>
     {{/unless}}
 
@@ -108,6 +113,7 @@
   {{#if loggedIn}}
     <script src="/javascript/logout.js"></script>
   {{/if}}
+
 </body>
 
 </html>

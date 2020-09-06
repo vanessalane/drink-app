@@ -6,7 +6,8 @@ const { Ingredient, Recipe, User } = require('../models');
 router.get('/add', withAuth, (req, res) => {
     res.render('add_recipe', {
         no_hero: true,
-        loggedIn: req.session.loggedIn
+        loggedIn: req.session.loggedIn,
+        loggedInUser: req.session.username
     });
 });
 
@@ -20,7 +21,6 @@ router.get('/:recipe_id', (req, res) => {
             'instructions',
             'image_url',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
-            [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
         ],
         include: [
             {
@@ -44,22 +44,25 @@ router.get('/:recipe_id', (req, res) => {
             templateData = {
                 no_hero: true,
                 include_homepage_button: true,
-                error: "Sorry, this recipe couldn't be loaded!",
-                loggedIn: req.session.loggedIn
+                error: "Sorry, this recipe couldn't be loaded.",
+                loggedIn: req.session.loggedIn,
+                loggedInUser: req.session.username
             }
         } else {
             const recipe = loadedRecipe.get({ plain: true })
+            const recipe_label = recipe.rating_count > 1 ? "ratings" : "rating";
             templateData = {
-                hero_title: recipe.recipe_name,
-                hero_subtitle: recipe.User.username,
+                no_hero: true,
                 image_url: recipe.image_url,
                 instructions: recipe.instructions,
                 ingredients: recipe.recipe_ingredients,
-                loggedIn: req.session.loggedIn,
                 rating: recipe.rating,
                 rating_count: recipe.rating_count,
                 recipe_id: recipe.recipe_id,
-                username: recipe.User.username
+                recipe_name: recipe.recipe_name,
+                username: recipe.User.username,
+                loggedIn: req.session.loggedIn,
+                loggedInUser: req.session.username
             }
         }
         res.render('single_recipe', templateData);

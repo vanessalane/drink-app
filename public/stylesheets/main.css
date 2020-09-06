@@ -32,31 +32,64 @@ nav {
 
 
 /* start hero styles */
-.hero-container {
+.big-hero {
     height: 65vh;
 }
-
+.big-hero h1 {
+    font-size: 7vw;
+}
+.big-hero h2 {
+    font-size: 5vw;
+}
+.small-hero {
+    height: 40vh;
+}
+.small-hero h1 {
+    font-size: 6vw;
+}
+.small-hero h2 {
+    font-size: 3vw;
+}
 .hero-content-container {
     height: 50%;
     width: 100%;
 }
-
+.hero-content {
+    margin-left: auto;
+    margin-right: auto;
+}
 .hero-title {
     padding: 20px;
 }
+@media only screen and (max-width: 480px) {
+    .big-hero {
+        height: 75vh;
+    }
+    .hero-title h1 {
+        font-size: 16vw;
+    }
+    .hero-title h2 {
+        font-size: 12vw;
+    }
+}
+
+
 /* end hero styles */
 
 /* body content styles */
 .body-content {
-    margin: 8vh auto;
+    margin: 4vh auto;
 }
 .card {
     background-size: cover;
     background-position: center;
     border-radius: 5px;
 }
+.small-margin-top {
+    margin-top: 2vh;
+}
 .margin-top {
-    margin-top:  4vh;
+    margin-top: 4vh;
 }
 .card .card-content .card-title {
     margin-bottom: 6vh;
@@ -73,13 +106,18 @@ nav {
 #instructions {
     white-space: pre-line;
 }
+#rating-label {
+    margin-top: 1vh;
+}
+.recipe-image-container {
+    height: 50vh;
+    margin: 2vh;
+}
 .recipe-image {
     background-size: cover;
     background-position: center;
     margin: auto;
-}
-.row {
-    margin-bottom: 0px;
+    height: 100%;
 }
 a:hover{
     opacity: 75%;
@@ -91,13 +129,11 @@ nav a:hover {
     opacity: 100%;
 }
 button {
-    white-space: nowrap;
-}
-button, input, textarea {
-    font-family: 'Alata', sans-serif;
+    /* white-space: nowrap; */
+    margin: auto;
 }
 .waves-effect {
-
-    white-space: nowrap;
+    height: 100%;
+    margin: 1vh;
 }
 /* end body content styles */

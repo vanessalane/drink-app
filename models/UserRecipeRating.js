@@ -11,7 +11,7 @@ UserRecipeRating.init({
             allowNull: false
         }, 
         rating: {
-            type: DataTypes.DECIMAL,
+            type: DataTypes.DECIMAL(10,2),
             allowNull: false,
             defaultValue: 0,
             validate: {

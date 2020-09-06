@@ -150,14 +150,6 @@ router.post('/', upload.single('imageFile'), async (req, res) => {
     .then(async dbRecipeData => {
         console.log({"New dbRecipeData": dbRecipeData.dataValues});
 
-        // create the rating
-        UserRecipeRating.create({
-            recipe_id: dbRecipeData.recipe_id,
-            user_id: req.session.user_id
-        })
-        .then(dbUserRecipeRatingData => console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues}))
-        .catch(err => console.log(err))
-
         // create the ingredients
         const ingredientNames = Array.isArray(req.body.ingredientName) ? req.body.ingredientName : [req.body.ingredientName];
         const ingredientAmounts = Array.isArray(req.body.ingredientAmount) ? req.body.ingredientAmount : [req.body.ingredientAmount];
