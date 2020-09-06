@@ -1,7 +1,7 @@
 <div class="card">
   <section class="card-content">
     <div class="row">
-      <h4 class="center-align blue-grey-text text-darken-3">Add a New Drink Recipe</h4>
+      <h4 class="center-align blue-grey-text text-darken-3">Add a Drink</h4>
     </div>
 
     <form class="add-recipe-form" enctype="multipart/form-data" method="POST" action='/api/recipes'>
@@ -20,21 +20,21 @@
             <br>
             <div id="ingredient-section" class="col s12">
                 <div class="row ingredient-inputs">
-                    <div class="col s12 m4 l5 input-field ingredient-amount-container">
+                    <div class="col s12 m5 input-field ingredient-amount-container">
                         <input id="ingredient-amount-1" name="ingredientAmount" type="text" class="validate ingredient-amount" required=""></input>
                         <label for="ingredient-amount-1" class="ingredient-amount-label">Amount (e.g. 2 parts)</label>
                         <span class="helper-text" data-error="required"></span>
                     </div>
 
-                    <div class="col s12 m5 l5 input-field ingredient-name-container">
+                    <div class="col s12 m5 input-field ingredient-name-container">
                         <input type="text" id="ingredient-name-1" name="ingredientName" class="autocomplete validate ingredient-name" required="">
                         <label for="ingredient-name-1" class="ingredient-name-label">descriptor (e.g. tonic water)</label>
                         <span class="helper-text" data-error="required"></span>
                     </div>
 
-                    <div class="col s12 m3 l2 input-field center-align">
-                        <a class="btn-floating btn green add-ingredient"><i class="material-icons">content_copy</i></a>
-                        <a class="btn-floating btn red remove-ingredient hidden"><i class="material-icons">delete</i></a>
+                    <div class="col s12 m2 input-field left-align">
+                        <a class="btn-floating btn-small green center add-ingredient"><i class="material-icons">add</i></a>
+                        <a class="btn-floating btn-small deep-orange darken-2 remove-ingredient hidden"><i class="material-icons">clear</i></a>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <h6 class="blue-grey-text text-darken-3">Add an Image</h6>
             <br>
             <div class="file-field input-field">
-                <div class="btn-small deep-orange darken-2">
+                <div class="btn deep-orange darken-3">
                     <span>file</span>
                     <input type="file" id="file-input" name="imageFile">
                 </div>
@@ -67,7 +67,7 @@
 
         <div class="row center-align" id="submit-container">
             <div class="input-field">
-                <button type="submit" class="btn-large deep-orange darken-2">Add Recipe</button>
+                <button type="submit" class="btn-large deep-orange darken-3">Add Drink<i class="material-icons right">send</i></button>
             </div>
         </div>
     </form>

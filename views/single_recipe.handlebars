@@ -18,7 +18,7 @@
                 {{#unless error}}
                 <div>
                     <p>
-                    <h5 class="deep-orange-text text-darken-2">rating</h5>
+                    <h5 class="blue-grey-text text-darken-3">rating</h5>
                     <div id="rateYo"></div>
                     </p>
                 </div>
@@ -26,7 +26,7 @@
 
                 {{#if ingredients}}
                 <div class="margin-top">
-                    <h5 class="deep-orange-text text-darken-2">ingredients</h5>
+                    <h5 class="blue-grey-text text-darken-3">ingredients</h5>
                     <p>
                         <ul class="browser-default">
                             {{#each ingredients}}
@@ -39,7 +39,7 @@
 
                 {{#if instructions}}
                 <div class="margin-top">
-                    <h5 class="deep-orange-text text-darken-2">instructions</h5>
+                    <h5 class="blue-grey-text text-darken-3">instructions</h5>
                     <p id="instructions">{{instructions}}</p>
                 </div>
                 {{/if}}
@@ -53,7 +53,7 @@
     <a href="/" class="waves-effect waves-light btn grey">View All Recipes</a>
     </div>
     <div class="col s12 m3 margin-top">
-        <a href="/user/{{username}}" class="waves-effect waves-light btn">more recipes by {{username}}</a>
+        <a href="/user/{{username}}" class="waves-effect waves-light btn deep-orange darken-3">more recipes by {{username}}</a>
     </div>
 </div>
 {{/if}}

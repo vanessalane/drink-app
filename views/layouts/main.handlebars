@@ -7,7 +7,7 @@
   <title>Drink App</title>
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&family=Lato&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
@@ -21,14 +21,14 @@
   <div class="navbar-fixed">
   <nav class="white">
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo deep-orange-text text-darken-2 hide-on-med-and-down">drink app</a>
+      <a href="/" class="brand-logo deep-orange-text text-darken-3 hide-on-med-and-down">drink app!</a>
       <a href="#" data-target="mobile-menu" class="sidenav-trigger grey-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         {{#if loggedIn}}
-        <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
-        <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
+          <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
+          <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
         {{ else }}
-        <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
+          <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
         {{/if}}
       </ul>
     </div>
@@ -36,28 +36,24 @@
   </div>
 
   <ul class="sidenav" id="mobile-menu">
-    <li><a href="/" class="grey-text text-darken-4">drink app</a></li>
+    <li><a href="/" class="deep-orange-text text-darken-3"><h5>drink app!</h5></a></li>
     {{#if loggedIn}}
-    <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
-    <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
+      <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
+      <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
     {{ else }}
-    <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
+      <li><a href="/login" class="grey-text text-darken-4">log in</a></li>
     {{/if}}
     </li>
   </ul>
 
   <main class="blue-grey lighten-5">
     {{#unless no_hero}}
-      {{#if big_hero }}
-      <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 65vh">
-      {{else}}
-      <div class="hero-container valign-wrapper blue-grey darken-3" style="height: 40vh">
-      {{/if}}
+      <div class="hero-container valign-wrapper blue-grey darken-4">
             <div class="row hero-content-container valign-wrapper">
               <div class="hero-content col l6 s12 offset-l3 hero-title">
-                <h3 class="grey-text text-lighten-5 center-align">{{ hero_eyebrow }}</h3>
-                <h1 class="amber-text text-lighten-3 center-align">{{ hero_title }}</h1>
-                <h3 class="grey-text text-lighten-5 center-align">{{ hero_subtitle }}</h3>
+                <h3 class="white-text center-align">{{ hero_eyebrow }}</h3>
+                <h1 class="white blue-grey-text text-darken-4 center-align hero-title">{{ hero_title }}</h1>
+                <h3 class="white-text center-align">{{ hero_subtitle }}</h3>
               </div>
             </div>
       </div>
@@ -70,44 +66,43 @@
 
   <footer class="page-footer blue-grey lighten-4">
     <div class="container">
-      <div class="row">
+      <div class="row margin-bottom">
+          <h5 class="grey-text text-darken-4">Get in Touch</h5>
+          <div class="col s12 l4">
+            <h6 class="grey-text text-darken-4">Vanessa Lane</h6>
+            <ul>
+              <li><a class="grey-text text-darken-4" href="https://github.com/vanessalane" target="_blank">vanessalane</a></li>
+              <li><a class="grey-text text-darken-4" href="mailto:vlane0593@gmail.com" target="_blank">vlane0593@gmail.com</a></li>
+            </ul>
+          </div>
 
-        <div class="col l6 s12">
-          <h6 class="grey-text text-darken-4">attributions</h6>
-          <ul>
-            <li><a class="grey-text text-darken-4"href="https://www.vecteezy.com/free-vector/glass">Glass Vectors by Vecteezy</a></li>
-          </ul>
-        </div>
+          <div class="col s12 l4">
+            <h6 class="grey-text text-darken-4">Christian Vavuris</h6>
+            <ul>
+              <li><a class="grey-text text-darken-4" href="https://github.com/Christian-Vavuris" target="_blank">Christian-Vavuris</a></li>
+              <li><a class="grey-text text-darken-4" href="mailto:cvavuris@gmail.com" target="_blank">cvavuris@gmail.com</a></li>
+            </ul>
+          </div>
 
-        <div class="col l2 s12">
-          <h6 class="grey-text text-darken-4">Christian Vavuris</h6>
-          <ul>
-            <li><a class="grey-text text-darken-4" href="https://github.com/Christian-Vavuris" target="_blank">Christian-Vavuris</a></li>
-            <li><a class="grey-text text-darken-4" href="mailto:cvavuris@gmail.com" target="_blank">cvavuris@gmail.com</a></li>
-          </ul>
-        </div>
-
-        <div class="col l2 s12">
-          <h6 class="grey-text text-darken-4">Hani Ghaderi</h6>
-          <ul>
-            <li><a class="blue-grey-text text-darken-4" href="https://github.com/hanzul" target="_blank">hanzul</a></li>
-            <li><a class="blue-grey-text text-darken-4" href="mailto:hani.ghaderi@me.com" target="_blank">hani.ghaderi@me.com</a></li>
-          </ul>
-        </div>
-
-        <div class="col l2 s12">
-          <h6 class="grey-text text-darken-4">Vanessa Lane</h6>
-          <ul>
-            <li><a class="grey-text text-darken-4" href="https://github.com/vanessalane" target="_blank">vanessalane</a></li>
-            <li><a class="grey-text text-darken-4" href="mailto:vlane0593@gmail.com" target="_blank">vlane0593@gmail.com</a></li>
-          </ul>
+          <div class="col s12 l4">
+            <h6 class="grey-text text-darken-4">Hani Ghaderi</h6>
+            <ul>
+              <li><a class="blue-grey-text text-darken-4" href="https://github.com/hanzul" target="_blank">hanzul</a></li>
+              <li><a class="blue-grey-text text-darken-4" href="mailto:hani.ghaderi@me.com" target="_blank">hani.ghaderi@me.com</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 
     </div>
-    <div class="footer-copyright grey-text text-darken-4">
-      <div class="container">
-      © 2020
+    <div class="footer-copyright grey-text text-darken-4 ">
+      <div class='container row'>
+      <div class="col s12 m6">
+        <a class="grey-text text-darken-4"href="https://www.vecteezy.com/free-vector/glass">Glass Vectors by Vecteezy</a>
+      </div>
+        <div class="col s12 m6 right-align">
+        © 2020
+        </div>
       </div>
     </div>
   </footer>

@@ -146,7 +146,7 @@ router.post('/', upload.single('imageFile'), async (req, res) => {
 
     // create the recipe
     await Recipe.create(newRecipe)
-    .then(dbRecipeData => {
+    .then(async dbRecipeData => {
         console.log({"New dbRecipeData": dbRecipeData.dataValues});
 
         // create the rating
@@ -192,7 +192,7 @@ router.post('/', upload.single('imageFile'), async (req, res) => {
                 res.status(500).json(err);
             })
         })
-        res.redirect(`/recipe/${dbRecipeData.recipe_id}`);
+        await res.redirect(`/recipe/${dbRecipeData.recipe_id}`);
     })
     .catch(err => {
         console.log(err);

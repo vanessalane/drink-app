@@ -1,10 +1,14 @@
 * {
-    font-family: 'Alata', sans-serif;
     scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5 {
     margin: .656rem 0;
+    font-family: 'Kumbh Sans', sans-serif;
+}
+
+h1 {
+    font-size: 10vh;
 }
 
 /* start materialize sticky footer */
@@ -38,7 +42,7 @@ nav {
 }
 
 .hero-title {
-    margin: 10px auto 20px;
+    padding: 20px;
 }
 /* end hero styles */
 
@@ -49,12 +53,15 @@ nav {
 .card {
     background-size: cover;
     background-position: center;
+    border-radius: 5px;
 }
 .margin-top {
     margin-top:  4vh;
 }
 .card .card-content .card-title {
     margin-bottom: 6vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 .hidden {
     display: none;
@@ -74,9 +81,11 @@ nav {
 .row {
     margin-bottom: 0px;
 }
-
 a:hover{
     opacity: 75%;
+}
+nav a {
+    font-family: 'Kumbh Sans', sans-serif;
 }
 nav a:hover {
     opacity: 100%;
