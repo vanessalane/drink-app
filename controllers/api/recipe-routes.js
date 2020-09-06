@@ -1,8 +1,5 @@
 const router = require('express').Router();
-const aws = require('aws-sdk');
 const fs = require('fs');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 
 const sequelize = require('../../config/connection');
 const { Ingredient, Recipe, RecipeIngredient, User, UserRecipeRating } = require('../../models');
@@ -107,62 +104,20 @@ router.get('/:id', (req, res) => {
 // }
 // This gets you a 200 respose
 
-// Multer Middleware
-var upload = multer({
-    dest: __dirname + './uploads/',
-    limits: {fileSize: 1000000, files:1},
-});
-
 router.post('/', upload.single('imageFile'), (req, res) => {
     console.log({
         body: req.body,
         recipe_name: req.body.recipeName,
-        instructions: req.body.instructions,
-        files: req.files
+        instructions: req.body.instructions
     })
-
-    let s3Data = {
-        image_url: '',
-        image_file_name: ''
-    };
-
-    if (req.files) {
-        console.log("******* UPLOADING THE FILE TO AWS *******")
-        var file = req.files.file-input;
-
-        // Set the AWS config
-        aws.config.update({
-            region: process.env.S3_REGION,
-            credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY,
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
-            }
-        });
-
-        // create S3 service object
-        const s3 = new aws.S3();
-        const image_id = '10000' + parseInt(Math.random() * 10000000);
-        const params = {
-            ACL: 'public-read',
-            Bucket: process.env.S3_BUCKET,
-            Body: fs.createReadStream(file.path),
-            Key: `recipe_images/${image_id}`
-        };
-
-        // upload the file
-        s3.upload(params, function(s3Err, data) {
-            if (s3Err) throw s3Err;
-            s3Data = data
-        })
-    }
 
     // create the recipe
     console.log("******* CREATING A NEW RECIPE *******")
     Recipe.create({
         recipe_name: req.body.recipeName,
         instructions: req.body.instructions,
-        image_url: s3Data.image_url,
-        image_file_name: s3Data.image_file_name,
+        image_url: "",  // replace this with the url to the image if it exists
+        image_file_name: "",  // replace this with the s3 file key if it exists
         user_id: req.session.user_id
     })
     .then(dbRecipeData => {
