@@ -104,7 +104,7 @@ router.get('/:id', (req, res) => {
 // }
 // This gets you a 200 respose
 
-router.post('/', upload.single('imageFile'), (req, res) => {
+router.post('/', (req, res) => {
     console.log({
         body: req.body,
         recipe_name: req.body.recipeName,
