@@ -52,9 +52,6 @@
     {{#unless no_hero}}
       {{#if big_hero}}
       <div class="hero-container big-hero valign-wrapper blue-grey darken-4">
-      {{else}}
-      <div class="hero-container small-hero valign-wrapper blue-grey darken-4">
-      {{/if}}
           <div class="hero-content-container valign-wrapper">
             <div class="hero-content hero-title">
               <h2 class="grey-text text-lighten-4 center-align">{{ hero_eyebrow }}</h2>
@@ -62,6 +59,16 @@
             </div>
           </div>
       </div>
+      {{else}}
+      <div class="hero-container small-hero valign-wrapper blue-grey darken-4">
+          <div class="hero-content-container valign-wrapper">
+            <div class="hero-content hero-title">
+              <h4 class="grey-text text-lighten-4 center-align">{{ hero_eyebrow }}</h4>
+              <h2 class="yellow-text text-darken-3 center-align hero-title">{{ hero_title }}</h2>
+            </div>
+          </div>
+      </div>
+      {{/if}}
     {{/unless}}
 
     <div class="container body-content" id="body">
