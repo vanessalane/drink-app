@@ -19,7 +19,9 @@ If you want to populate the database with dummy data:
 3. cd into the cloned repo and run `npm run seed`
 
 ## Troubleshooting
-This app depends on the following .env variables:
+Did you run `npm i`?
+
+This app depends on the following `.env` variables:
 - DB_NAME='drink_app'
 - DB_USER='your mysql username'
 - DB_PW='your mysql password'
