@@ -2,6 +2,36 @@ const router = require('express').Router();
 const sequelize = require('../../config/connection');
 const { Ingredient, Recipe, RecipeIngredient, User, UserRecipeRating } = require('../../models');
 
+// Set up AWS
+const aws = require('aws-sdk');
+aws.config.update({
+    region: process.env.S3_REGION,
+    credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+    }
+});
+
+// create S3 service object
+const s3 = new aws.S3();
+
+// set up the multer-s3 engine
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const upload = multer({
+    storage: multerS3({
+        acl: 'public-read',
+        s3: s3,
+        bucket: process.env.S3_BUCKET,
+        metadata: function(req, file, cb) {
+            cb(null, {fieldName: file.fieldname});
+        },
+        key: function (req, file, cb) {
+          cb(null, Date.now().toString())
+        }
+    })
+})
+
 // GET All Recipes
 router.get('/', (req, res) => {
     Recipe.findAll({
@@ -9,7 +39,7 @@ router.get('/', (req, res) => {
             'recipe_id',
             'recipe_name',
             'instructions',
-            'image_file_name',
+            'image_url',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
         ],
@@ -50,7 +80,7 @@ router.get('/:id', (req, res) => {
             'recipe_id',
             'recipe_name',
             'instructions',
-            'image_file_name',
+            'image_url',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
         ],
@@ -100,16 +130,22 @@ router.get('/:id', (req, res) => {
 //         }
 //     ]
 // }
-router.post('/', (req, res) => {
+router.post('/', upload.single('imageFile'), async (req, res) => {
 
-    // create the recipe
-    Recipe.create({
+    let newRecipe = {
         recipe_name: req.body.recipeName,
         instructions: req.body.instructions,
-        image_url: req.body.image_url,
-        image_file_name: req.body.image_file_name,
         user_id: req.session.user_id
-    })
+    }
+
+    // add image data if there is some
+    if (req.file) {
+        newRecipe.image_url = req.file.location;
+        newRecipe.image_file_name = req.file.key;
+    }
+
+    // create the recipe
+    await Recipe.create(newRecipe)
     .then(dbRecipeData => {
         console.log({"New dbRecipeData": dbRecipeData.dataValues});
 
@@ -156,7 +192,7 @@ router.post('/', (req, res) => {
                 res.status(500).json(err);
             })
         })
-        res.json(dbRecipeData)
+        res.redirect(`/recipe/${dbRecipeData.recipe_id}`);
     })
     .catch(err => {
         console.log(err);

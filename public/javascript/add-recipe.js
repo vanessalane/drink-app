@@ -65,17 +65,5 @@ function removeIngredientInput() {
     $(this).closest('.ingredient-inputs').remove();
 }
 
-async function addNewRecipe() {
-    event.preventDefault();
-    var formData = $("form").serialize();
-
-    $.post('/api/recipes', formData)
-    .done(newRecipe => {
-        document.location.replace(`/recipe/${newRecipe.recipe_id}`);
-    })
-    .catch(err => console.log(err));
-}
-
-$(".add-recipe-form").on('submit', addNewRecipe);
 $(".add-ingredient").on('click', addIngredientInput);
 $(".remove-ingredient").on('click', removeIngredientInput);

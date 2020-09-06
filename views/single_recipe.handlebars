@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col s12 l5">
         <div class="card large">
-            {{#if image_file_name}}
-            <div class="card-content recipe-image" style="background-image:url('{{image_file_name}}'); height:100%;"></div>
+            {{#if image_url}}
+            <div class="card-content recipe-image" style="background-image:url('{{image_url}}'); height:100%;"></div>
             {{else}}
-            <div class="card-content recipe-image" style="background-image:url('https://drink-app.s3-us-west-1.amazonaws.com/recipe_images/placeholder.svg'); height:100%;"></div>
+            <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg'); height:100%;"></div>
             {{/if}}
         </div>
     </div>
