@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col s12 l5">
         <div class="card large">
-            {{#if image_file_name}}
-            <div class="card-content recipe-image" style="background-image:url('{{image_file_name}}'); height:100%;"></div>
+            {{#if image_url}}
+            <div class="card-content recipe-image" style="background-image:url('{{image_url}}'); height:100%;"></div>
             {{else}}
-            <div class="card-content recipe-image" style="background-image:url('../images/placeholder.svg'); height:100%;"></div>
+            <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg'); height:100%;"></div>
             {{/if}}
         </div>
     </div>
@@ -18,7 +18,7 @@
                 {{#unless error}}
                 <div>
                     <p>
-                    <h5 class="deep-orange-text text-darken-2">rating</h5>
+                    <h5 class="blue-grey-text text-darken-3">rating</h5>
                     <div id="rateYo"></div>
                     </p>
                 </div>
@@ -26,7 +26,7 @@
 
                 {{#if ingredients}}
                 <div class="margin-top">
-                    <h5 class="deep-orange-text text-darken-2">ingredients</h5>
+                    <h5 class="blue-grey-text text-darken-3">ingredients</h5>
                     <p>
                         <ul class="browser-default">
                             {{#each ingredients}}
@@ -39,7 +39,7 @@
 
                 {{#if instructions}}
                 <div class="margin-top">
-                    <h5 class="deep-orange-text text-darken-2">instructions</h5>
+                    <h5 class="blue-grey-text text-darken-3">instructions</h5>
                     <p id="instructions">{{instructions}}</p>
                 </div>
                 {{/if}}

@@ -23,18 +23,18 @@ $(document).ready(() => {
     });
 });
 
-async function addIngredientInputs() {
+async function addIngredientInput() {
     inputCount++;
 
     // copy the ingredient inputs section
-    let newInputs = $(this).closest('.ingredient-inputs').clone();
+    let newInputs = $(this).closest('.ingredient-inputs').clone().addClass("margin-top");
 
     // update the input value and id
     let amountInput = newInputs.find("input.ingredient-amount");
     let amountLabel = newInputs.find("label.ingredient-amount-label");
     
     const amountId = `ingredient-amount-${inputCount}`;
-    amountInput.attr('id', amountId);
+    amountInput.attr('id', amountId).text("");
     amountLabel.attr('for', amountId);
 
     // update the name value and id
@@ -42,15 +42,15 @@ async function addIngredientInputs() {
     const nameLabel = newInputs.find("label.ingredient-name-label");
 
     const nameId = `ingredient-name-${inputCount}`;
-    nameInput.attr('id', nameId);
+    nameInput.attr('id', nameId).text("");
     nameLabel.attr('for', nameId);
 
     // show the delete button since it's not the first ingredient input
     newInputs.find(".remove-ingredient").removeClass('hidden');
 
     // add event listeners to the buttons
-    newInputs.find(".add-ingredient").on("click", addIngredientInputs);
-    newInputs.find(".remove-ingredient").on("click", removeIngredientInputs);
+    newInputs.find(".add-ingredient").on("click", addIngredientInput);
+    newInputs.find(".remove-ingredient").on("click", removeIngredientInput);
 
     // append the copy to the ingredients section
     $("#ingredient-section").append(newInputs);
@@ -61,40 +61,9 @@ async function addIngredientInputs() {
     });
 }
 
-function removeIngredientInputs() {
+function removeIngredientInput() {
     $(this).closest('.ingredient-inputs').remove();
 }
 
-async function addNewRecipe() {
-    event.preventDefault();
-
-    // get all of the amounts and all of the ingredients chosen
-    const recipe_name = $("#recipe-name").val().trim();
-    const instructions = $("#recipe-instructions").val().trim();
-    const image_file_name = $("#recipe-image-filename").val().trim();
-
-    let ingredients = $(".ingredient-inputs").map((index, element) => {
-        return {
-            ingredient_amount: $(element).find(".ingredient-amount").val().trim().toLowerCase(),
-            ingredient_name: $(element).find(".ingredient-name").val().trim().toLowerCase()
-        }
-    }).get();
-
-    const newRecipe = {
-        recipe_name,
-        instructions,
-        image_file_name,
-        ingredients
-    }
-
-    // create the Recipe
-    $.post('/api/recipes', newRecipe)
-    .done(newRecipe => {
-        document.location.replace(`/recipe/${newRecipe.recipe_id}`);
-    })
-    .catch(err => console.log(`Couldn't create a Recipe: ${err}`));
-}
-
-$(".add-recipe-form").on('submit', addNewRecipe);
-$(".add-ingredient").on('click', addIngredientInputs);
-$(".remove-ingredient").on('click', removeIngredientInputs);
+$(".add-ingredient").on('click', addIngredientInput);
+$(".remove-ingredient").on('click', removeIngredientInput);

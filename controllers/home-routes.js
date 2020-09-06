@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
                 templateData = {
                     big_hero: true,
                     hero_eyebrow: "it's time to",
-                    hero_title: "drink app",
+                    hero_title: "drink app!",
                     error: "No drinks have been added!",
                     include_add_recipe_button: true,
                     loggedIn: req.session.loggedIn
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
                 templateData = {
                     big_hero: true,
                     hero_eyebrow: "it's time to",
-                    hero_title: "drink app",
+                    hero_title: "drink app!",
                     error: "No drinks have been added! Log in or sign up to share one.",
                     include_login_button: true,
                     loggedIn: req.session.loggedIn
@@ -71,7 +71,7 @@ router.get('/user/:username', (req, res) => {
                 'recipe_id',
                 'recipe_name',
                 'instructions',
-                'image_file_name',
+                'image_url',
                 [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
                 [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
             ],
@@ -94,7 +94,7 @@ router.get('/user/:username', (req, res) => {
             } else {
                 const recipes = loadedRecipes.map(recipe => recipe.get({ plain: true }));
                 templateData = {
-                    hero_eyebrow: `${req.params.username}'s recipes`,
+                    hero_title: `${req.params.username}'s recipes`,
                     recipes,
                     loggedIn: req.session.loggedIn
                 };

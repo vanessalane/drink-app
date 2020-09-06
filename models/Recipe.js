@@ -27,9 +27,11 @@ Recipe.init(
                 key: 'user_id'
             }
         },
+        image_url: {
+            type: DataTypes.STRING
+        },
         image_file_name: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
     },
     {

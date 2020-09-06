@@ -1,8 +1,8 @@
 <div class="col s12 m6 l4">
-    {{#if image_file_name}}
-        <div class="card medium" style="background-image:url('{{image_file_name}}');">
+    {{#if image_url}}
+        <div class="card medium" style="background-image:url('{{image_url}}');">
     {{else}}
-        <div class="card medium" style="background-image:url('/images/placeholder.svg');">
+        <div class="card medium" style="background-image:url('https://drink-app.s3-us-west-1.amazonaws.com/recipe_images/placeholder.svg');">
     {{/if}}
         <div class="card-action center-align">
             <a href="/recipe/{{recipe_id}}" class="grey-text text-darken-3">{{recipe_name}}</a>
