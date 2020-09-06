@@ -1,6 +1,4 @@
 const router = require('express').Router();
-const fs = require('fs');
-
 const sequelize = require('../../config/connection');
 const { Ingredient, Recipe, RecipeIngredient, User, UserRecipeRating } = require('../../models');
 
@@ -102,22 +100,14 @@ router.get('/:id', (req, res) => {
 //         }
 //     ]
 // }
-// This gets you a 200 respose
-
 router.post('/', (req, res) => {
-    console.log({
-        body: req.body,
-        recipe_name: req.body.recipeName,
-        instructions: req.body.instructions
-    })
 
     // create the recipe
-    console.log("******* CREATING A NEW RECIPE *******")
     Recipe.create({
         recipe_name: req.body.recipeName,
         instructions: req.body.instructions,
-        image_url: "",  // replace this with the url to the image if it exists
-        image_file_name: "",  // replace this with the s3 file key if it exists
+        image_url: req.body.image_url,
+        image_file_name: req.body.image_file_name,
         user_id: req.session.user_id
     })
     .then(dbRecipeData => {
@@ -128,12 +118,8 @@ router.post('/', (req, res) => {
             recipe_id: dbRecipeData.recipe_id,
             user_id: req.session.user_id
         })
-        .then(dbUserRecipeRatingData => {
-            console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues});
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        .then(dbUserRecipeRatingData => console.log({"New UserRecipeRating": dbUserRecipeRatingData.dataValues}))
+        .catch(err => console.log(err))
 
         // create the ingredients
         const ingredientNames = Array.isArray(req.body.ingredientName) ? req.body.ingredientName : [req.body.ingredientName];
@@ -152,18 +138,14 @@ router.post('/', (req, res) => {
                 } else {
                     console.log({"Found Ingredient": dbIngredientData[0].dataValues});
                 }
-
-                console.log({i, ingredientAmounts});
-
+    
                 // associate the recipe with an ingredient
                 RecipeIngredient.create({
                     ingredient_id: dbIngredientData[0].ingredient_id,
                     recipe_id: dbRecipeData.recipe_id,
                     amount: ingredientAmounts[i]
                 })
-                .then(dbRecipeIngredientData => {
-                    console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues});
-                })
+                .then(dbRecipeIngredientData => console.log({"New RecipeIngredient": dbRecipeIngredientData.dataValues}))
                 .catch(err => {
                     console.log(err);
                     res.status(500).json(err);

@@ -4,7 +4,7 @@
       <h4 class="center-align blue-grey-text text-darken-3">Add a New Drink Recipe</h4>
     </div>
 
-    <form class="add-recipe-form" enctype="multipart/form-data">
+    <form class="add-recipe-form" enctype="multipart/form-data" method="POST" action='/api/aws/upload'>
         <div class="row">
             <h6 class="blue-grey-text text-darken-3">Drink Name</h6>
             <br>
@@ -56,10 +56,10 @@
             <div class="file-field input-field">
                 <div class="btn-small deep-orange darken-2">
                     <span>file</span>
-                    <input type="file" id="file-input">
+                    <input type="file" id="file-input" name="imageFile">
                 </div>
                 <div class="file-path-wrapper">
-                    <input id="recipe-image-filename" name="imageFile" class="file-path validate" type="text">
+                    <input id="recipe-image-filename" class="file-path validate" type="text">
                     <label>file path to your image</label>
                 </div>
             </div>
@@ -78,4 +78,4 @@
     <a href="/" class="waves-effect waves-light btn grey">View All Recipes</a>
 </div>
 
-<script src="/javascript/add-recipe.js"></script>
+{{!-- <script src="/javascript/add-recipe.js"></script> --}}
