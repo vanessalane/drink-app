@@ -1,90 +1,64 @@
 {{#if error}}
     {{> error_card}}
 {{else}}
-<div class="row">
-    <div class="col s12 l5">
-        <div class="card large">
+<div class="row card">
+    <div class="col s12 l6">
+        <div class="card-content">
+            <div >
+                <h3 class="blue-grey-text text-darken-3">{{recipe_name}}</h3>
+                <h6>by <a href="/user/{{username}}">{{username}}</a></h6>
+            </div>
+
+            <div class="small-margin-top">
+                <div id="rateYo"></div>
+                <p id="rating-label">{{rating_count}} {{format_plural "rating"}}</p>
+            </div>
+
+            {{#if ingredients}}
+            <div class="margin-top">
+                <h5 class="blue-grey-text text-darken-3">ingredients</h5>
+                <p>
+                    <ul class="browser-default">
+                        {{#each ingredients}}
+                        <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
+                        {{/each}}
+                    </ul>
+                </p>
+            </div>
+            {{/if}}
+
+            {{#if instructions}}
+            <div class="margin-top">
+                <h5 class="blue-grey-text text-darken-3">instructions</h5>
+                <p id="instructions">{{instructions}}</p>
+            </div>
+            {{/if}}
+
+            <div class="margin-top">
+            </div>
+        </div>
+    </div>
+    <div class="col s12 l6">
+        <div class="recipe-image-container" style="height: 50vh;">
             {{#if image_url}}
-            <div class="card-content recipe-image" style="background-image:url('{{image_url}}'); height:100%;"></div>
+            <div class="card-content recipe-image" style="background-image:url('{{image_url}}');"></div>
             {{else}}
-            <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg'); height:100%;"></div>
+            <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg');"></div>
             {{/if}}
         </div>
     </div>
 
-    <div class="col s12 l7">
-        <div class="card">
-            <div class="card-content">
-                {{#unless error}}
-                <div>
-                    <p>
-                    <h5 class="blue-grey-text text-darken-3">rating</h5>
-                    <div id="rateYo"></div>
-                    </p>
-                </div>
-                {{/unless}}
-
-                {{#if ingredients}}
-                <div class="margin-top">
-                    <h5 class="blue-grey-text text-darken-3">ingredients</h5>
-                    <p>
-                        <ul class="browser-default">
-                            {{#each ingredients}}
-                            <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
-                            {{/each}}
-                        </ul>
-                    </p>
-                </div>
-                {{/if}}
-
-                {{#if instructions}}
-                <div class="margin-top">
-                    <h5 class="blue-grey-text text-darken-3">instructions</h5>
-                    <p id="instructions">{{instructions}}</p>
-                </div>
-                {{/if}}
-            </div>
-        </div>
-    </div>
 </div>
 
-<div class="row center-align">
-    <div class="col s12 m3 offset-m3 margin-top">
-    <a href="/" class="waves-effect waves-light btn grey">View All Recipes</a>
+<div class="center-align row">
+    <div class="col s12 l6">
+    <a href="/user/{{username}}" class="waves-effect waves-light btn">more recipes by {{username}}</a>
     </div>
-    <div class="col s12 m3 margin-top">
-        <a href="/user/{{username}}" class="waves-effect waves-light btn">more recipes by {{username}}</a>
+    <div class="col s12 l6">
+    <a href="/" class="waves-effect waves-light btn grey">View All Recipes</a>
     </div>
 </div>
 {{/if}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
-<script>
-    // JS for the rating functionality
-    // docs: https://rateyo.fundoocode.ninja/
-    $(window).ready(() => {
-        $.get("/api/users/active")
-        .done(user_id => {
-            // if the user_id is found, someone has logged in and the rating should be editable
-            const recipe_id = "{{recipe_id}}";
-            const currentRating = "{{rating}}" ? "{{rating}}" : 0;  // default rating is 0 if it doesn't exist
-            $("#rateYo").rateYo({
-                rating: currentRating,
-                onSet: function (newRating, rateYoInstance) {
-                    // add the rating to the db when it's updated
-                    const ratingData = {recipe_id, user_id, rating};
-                    $.post('/api/reciperatings', ratingData)
-                    .done(data => console.log("rated"))
-                    .catch(err => console.log(err.message));
-                }
-            });
-        })
-        .catch(err => {
-            // if the user_id isn't found, no one has logged in and the rating should be editable
-            $("#rateYo").rateYo({
-                rating: "{{rating}}",
-                readOnly: true
-            });
-        })
-    });
-</script>
+<script src="/javascript/rating.js"></script>

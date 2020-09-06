@@ -7,7 +7,7 @@ $(document).ready(() => {
     $.get('/api/ingredients')
     .done((ingredients) => {
 
-        // store the ingredient names so that we don't need to run another request
+        // store the ingredient names so that we don't need to run another request for new inputs
         existingIngredients = ingredients.map((ingredient) => ingredient.ingredient_name.toLowerCase());
 
         // set up the options for autocomplete

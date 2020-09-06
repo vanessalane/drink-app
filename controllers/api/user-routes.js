@@ -87,14 +87,14 @@ router.post('/login', (req, res) => {
         }
     }).then(dbUserData => {
         if (!dbUserData) {
-            res.status(400).json({ message: 'Email address provided does not match an existing account.' });
+            res.status(400).json({ message: 'No account associated with this email.' });
             return;
         }
 
         const validPassword = dbUserData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res.status(400).json({ message: 'Invalid credentials.' });
+            res.status(400).json({ message: 'Incorrect password.' });
             return;
         }
 

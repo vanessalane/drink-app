@@ -7,7 +7,6 @@ router.get('/', (req, res) => {
     .then(loadedRecipes => {
         let templateData;
         if (loadedRecipes.length === 0) {
-            let errorMsg;
             if (req.session.loggedIn) {
                 templateData = {
                     big_hero: true,
@@ -15,16 +14,18 @@ router.get('/', (req, res) => {
                     hero_title: "drink app!",
                     error: "No drinks have been added!",
                     include_add_recipe_button: true,
-                    loggedIn: req.session.loggedIn
+                    loggedIn: req.session.loggedIn,
+                    loggedInUser: req.session.username
                 };
             } else {
                 templateData = {
                     big_hero: true,
                     hero_eyebrow: "it's time to",
                     hero_title: "drink app!",
-                    error: "No drinks have been added! Log in or sign up to share one.",
+                    error: "Log in or sign up to add a drink.",
                     include_login_button: true,
-                    loggedIn: req.session.loggedIn
+                    loggedIn: req.session.loggedIn,
+                    loggedInUser: req.session.username
                 };
             }
         } else {
@@ -35,6 +36,7 @@ router.get('/', (req, res) => {
                 hero_title: "drink app",
                 recipes,
                 loggedIn: req.session.loggedIn,
+                loggedInUser: req.session.username,
                 scroll_top_button: true
             };
         }
@@ -88,15 +90,18 @@ router.get('/user/:username', (req, res) => {
                 templateData = {
                     no_hero: true,
                     include_homepage_button: true,
-                    error: "This user hasn't added any drinks!",
-                    loggedIn: req.session.loggedIn
+                    error: `${req.session.username} hasn't added any drinks!`,
+                    loggedIn: req.session.loggedIn,
+                    loggedInUser: req.session.username
                 };
             } else {
                 const recipes = loadedRecipes.map(recipe => recipe.get({ plain: true }));
                 templateData = {
-                    hero_title: `${req.params.username}'s recipes`,
+                    hero_eyebrow: "drinks by",
+                    hero_title: `${req.params.username}`,
                     recipes,
-                    loggedIn: req.session.loggedIn
+                    loggedIn: req.session.loggedIn,
+                    loggedInUser: req.session.username
                 };
             }
             res.render('multiple_recipes', templateData);
@@ -111,7 +116,8 @@ router.get('/user/:username', (req, res) => {
             no_hero: true,
             include_homepage_button: true,
             error: `No user found with the username ${req.params.username}!`,
-            loggedIn: req.session.loggedIn
+            loggedIn: req.session.loggedIn,
+            loggedInUser: req.session.username
         };
         res.render('multiple_recipes', templateData);
     })
