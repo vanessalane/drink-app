@@ -1,0 +1,22 @@
+{{#if error}}
+    {{> error_card}}
+{{else}}
+<div class="body-content">
+    <div class="row">
+    {{#each recipes}}
+        {{> recipe_card }}
+    {{/each}}
+    </div>
+</div>
+
+{{#if scroll_top_button}}
+<div class="center-align">
+    <a href="#" class="waves-effect waves-light btn grey">Back to Top</a>
+</div>
+{{else}}
+<div class="center-align">
+    <a href="/" class="waves-effect waves-light btn grey">View all Recipes</a>
+</div>
+{{/if}}
+
+{{/if}}
