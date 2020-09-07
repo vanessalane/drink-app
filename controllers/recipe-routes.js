@@ -50,11 +50,13 @@ router.get('/:recipe_id', (req, res) => {
                 loggedInUser: req.session.username
             }
         } else {
+            const recipe = loadedRecipe.get({ plain: true });
             templateData = {
                 no_hero: true,
-                recipe: loadedRecipe.get({ plain: true }),
+                recipe: recipe,
                 loggedIn: req.session.loggedIn,
-                loggedInUser: req.session.username
+                loggedInUser: req.session.username,
+                belongsToUser: req.session.username === recipe.User.username
             }
         }
         res.render('single_recipe', templateData);
