@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Recipe extends Model {};
+class Recipe extends Model {}
 
 Recipe.init(
     {
@@ -33,10 +33,12 @@ Recipe.init(
         image_file_name: {
             type: DataTypes.STRING
         },
+        created_at: DataTypes.DATE,
+        updated_at: DataTypes.DATE,
     },
     {
         sequelize,
-        timestamps: false,
+        timestamps: true,
         freezeTableName: true,
         underscored: true,
         modelName: 'Recipe'

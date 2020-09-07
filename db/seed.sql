@@ -1,7 +1,8 @@
 USE drink_app;
 
 INSERT INTO User (username, password, email)
-VALUES ("test_user_1", "tester_1", "testytest1@gmail.com"),
+VALUES
+    ("test_user_1", "tester_1", "testytest1@gmail.com"),
     ("test_user_2", "tester_2", "testytest2@gmail.com"),
     ("test_user_3", "tester_3", "testytest3@gmail.com");
 
