@@ -83,6 +83,7 @@ router.get('/:id', (req, res) => {
             'recipe_id',
             'recipe_name',
             'instructions',
+            'image_file_name',
             'image_url',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
