@@ -27,7 +27,7 @@ async function addIngredientInput() {
     inputCount++;
 
     // copy the ingredient inputs section
-    let newInputs = $(this).closest('.ingredient-inputs').clone().addClass("margin-top");
+    let newInputs = $(this).closest('.ingredient-inputs').clone();
 
     // update the input value and id
     let amountInput = newInputs.find("input.ingredient-amount");
