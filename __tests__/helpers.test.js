@@ -1,4 +1,24 @@
-const {format_date, format_plural} = require('../utils/helpers');
+const {if_eq, format_date, format_plural} = require('../utils/helpers');
+
+test('if_eq() returns true if strictly equal', () => {  
+    expect(if_eq(1, 1)).toBe(true);
+});
+
+test('if_eq() returns true if strictly equal', () => {  
+    expect(if_eq("1", "1")).toBe(true);
+});
+
+test('if_eq() returns false if unequal', () => {  
+    expect(if_eq(1, 2)).toBe(false);
+});
+
+test('if_eq() returns false if unequal', () => {  
+    expect(if_eq("hello", "goodbye")).toBe(false);
+});
+
+test('if_eq() returns false if abstractly unequal', () => {  
+    expect(if_eq(1, "1")).toBe(false);
+});
 
 test('format_date() returns a date string', () => {
     const date = new Date('2020-03-20 16:12:03');

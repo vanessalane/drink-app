@@ -20,6 +20,7 @@ router.get('/:id', (req, res) => {
                 rating: 0,
                 rating_count: 0
             })
+            return;
         }
         if (req.session.user_id) {
             res.json({
