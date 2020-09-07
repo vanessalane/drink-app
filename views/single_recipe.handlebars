@@ -41,8 +41,8 @@
     </div>
     <div class="col s12 l6">
         <div class="recipe-image-container" style="height: 50vh;">
-            {{#if image_url}}
-            <div class="card-content recipe-image" style="background-image:url('{{image_url}}');"></div>
+            {{#if recipe.image_url}}
+            <div class="card-content recipe-image" style="background-image:url('{{recipe.image_url}}');"></div>
             {{else}}
             <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg');"></div>
             {{/if}}
