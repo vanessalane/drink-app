@@ -2,53 +2,58 @@
     {{> error_card}}
 {{else}}
 <div class="row card">
-    <div class="col s12 l6">
-        <div class="card-content">
-            <div>
-                <h3 class="blue-grey-text text-darken-3">{{recipe.recipe_name}}</h3>
-                <h6>by <a href="/user/{{recipe.User.username}}">{{recipe.User.username}}</a></h6>
-                {{#if recipe.created_at}}
-                    <p id="rating-label">Added on {{format_date recipe.created_at}}</p>
+    <div class="col s12 card-content">
+        <div class="row">
+            <div class="col s12 m8">
+                <div>
+                    <h3 class="blue-grey-text text-darken-3">{{recipe.recipe_name}}</h3>
+                    <h6>by <a href="/user/{{recipe.User.username}}">{{recipe.User.username}}</a></h6>
+                    <div class="small-margin-top">
+                        <div id="rateYo"></div>
+                        <p id="rating-label">{{recipe.rating_count}} {{format_plural "rating"}}</p>
+                    </div>
+                </div>
+            </div>
+
+            {{#if recipe.created_at}}
+            <div class="col s12 m4 right-align">
+                <p id="rating-label">Added on {{format_date recipe.created_at}}</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="row">
+            <div class="col s12 l6">
+                {{#if recipe.recipe_ingredients}}
+                <div class="margin-top">
+                    <h5 class="blue-grey-text text-darken-3">ingredients</h5>
+                    <p>
+                        <ul class="browser-default">
+                            {{#each recipe.recipe_ingredients}}
+                            <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
+                            {{/each}}
+                        </ul>
+                    </p>
+                </div>
+                {{/if}}
+
+                {{#if recipe.instructions}}
+                <div class="margin-top">
+                    <h5 class="blue-grey-text text-darken-3">instructions</h5>
+                    <p id="instructions">{{recipe.instructions}}</p>
+                </div>
                 {{/if}}
             </div>
-
-            <div class="small-margin-top">
-                <div id="rateYo"></div>
-                <p id="rating-label">{{recipe.rating_count}} {{format_plural "rating"}}</p>
+            <div class="col s12 l6">
+                <div class="recipe-image-container" style="height: 50vh;">
+                    {{#if recipe.image_url}}
+                    <div class="card-content recipe-image" style="background-image:url('{{recipe.image_url}}');"></div>
+                    {{else}}
+                    <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg');"></div>
+                    {{/if}}
+                </div>
             </div>
-
-            {{#if recipe.recipe_ingredients}}
-            <div class="margin-top">
-                <h5 class="blue-grey-text text-darken-3">ingredients</h5>
-                <p>
-                    <ul class="browser-default">
-                        {{#each recipe.recipe_ingredients}}
-                        <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
-                        {{/each}}
-                    </ul>
-                </p>
-            </div>
-            {{/if}}
-
-            {{#if recipe.instructions}}
-            <div class="margin-top">
-                <h5 class="blue-grey-text text-darken-3">instructions</h5>
-                <p id="instructions">{{recipe.instructions}}</p>
-            </div>
-            {{/if}}
-
         </div>
     </div>
-    <div class="col s12 l6">
-        <div class="recipe-image-container" style="height: 50vh;">
-            {{#if recipe.image_url}}
-            <div class="card-content recipe-image" style="background-image:url('{{recipe.image_url}}');"></div>
-            {{else}}
-            <div class="card-content recipe-image" style="background-image:url('/images/placeholder.svg');"></div>
-            {{/if}}
-        </div>
-    </div>
-
 </div>
 
 <div class="center-align row">
