@@ -39,6 +39,7 @@ router.get('/', (req, res) => {
             'recipe_id',
             'recipe_name',
             'instructions',
+            'image_file_name',
             'image_url',
             'created_at',
             'updated_at',
@@ -199,14 +200,28 @@ router.post('/', upload.single('imageFile'), async (req, res) => {
 
 // DELETE a recipe by recipe_id
 router.delete('/:id', (req, res) => {
-    // delete the recipe
-    Recipe.destroy({
+    // delete the s3 file
+    Recipe.findOne({
         where: {recipe_id: req.params.id}
     })
-    .then(() => {
-        res.json({message: "Recipe deleted", recipe_id: req.params.id})
+    .then(dbRecipeData => {
+        const fileKey = dbRecipeData.image_file_name;
+        s3.deleteObject({
+            Bucket: process.env.S3_BUCKET,
+            Key: fileKey
+        }, function(err, data) {
+
+            // delete the recipe
+            Recipe.destroy({
+                where: {recipe_id: req.params.id}
+            })
+            .then(() => {
+                res.json({message: "Recipe deleted", recipe_id: req.params.id})
+            })
+            .catch(err => res.status(500).json(err))
+        });
     })
-    .catch(err => res.json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 module.exports = router;
