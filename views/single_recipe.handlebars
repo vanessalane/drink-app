@@ -66,7 +66,7 @@
     </div>
 
     <div class="col s12 l4">
-        <a href="/" class="waves-effect waves-light btn red">Delete this recipe</a>
+        <a id="delete-recipe-btn" class="waves-effect waves-light btn red" data-recipe-id={{recipe.recipe_id}}>Delete this recipe</a>
     </div>
     {{else}}
     <div class="col s12 l6">
@@ -82,3 +82,4 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 <script src="/javascript/rating.js"></script>
+<script src="/javascript/delete-recipe.js"></script>
