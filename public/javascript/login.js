@@ -22,7 +22,7 @@ async function loginFormHandler(event) {
     .done(() => document.location.replace('/'))
     .fail((data) => {
       const latestError = data.responseJSON.message;
-      console.log(data);
+      console.log(latestError);
       $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
     })
   }
@@ -36,14 +36,8 @@ async function signupFormHandler(event) {
   const password = $('#auth-password').val().trim();
 
   // check to see that we have all of the responses necessary
-  if (!username) {
-    $("#auth-error").text('Username is required!').show().delay(3000).fadeOut(500);
-  } else if (!email) {
-    $("#auth-error").text('Email is required!').show().delay(3000).fadeOut(500);
-  } else if (!password) {
-    $("#auth-error").text('Password is required!').show().delay(3000).fadeOut(500);
-  } else {
-
+  if (username && email && password) {
+  
     // save the user
     $.post(
       '/api/users',
@@ -58,25 +52,26 @@ async function signupFormHandler(event) {
       .done(() => document.location.replace('/'))
       .fail((data) => {
         const latestError = data.responseJSON.message;
-        console.log(data);
-        $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
+        $("#auth-error").val(latestError).show().delay(3000).fadeOut(500);
       })
     })
     .fail((data) => {
       // surface an error message if the request wasn't successful
-      const latestError = data.responseJSON.errors[0].message;
+      let latestError = data.responseJSON.errors[0].message;
+      $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
 
       // handle uniqueness constraints that can't be customized in sequelize
       switch (latestError) {
         case "user.email must be unique":
           latestError = "An account with that email already exists."
+          console.log(latestError);
+          $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
           break;
         case "user.username must be unique":
           latestError = "Username taken."
+          $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
           break;
       }
-
-      $("#auth-error").text(latestError).show().delay(3000).fadeOut(500);
     })
   }
 }

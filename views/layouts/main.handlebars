@@ -25,8 +25,8 @@
       <a href="#" data-target="mobile-menu" class="sidenav-trigger grey-text text-darken-3"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         {{#if loggedIn}}
-          <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">logged in as {{loggedInUser}}</a></li>
           <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
+          <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">my account</a></li>
           <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
         {{ else }}
           <li><a href="/login" class="grey-text text-darken-4">log in or sign up</a></li>
@@ -39,8 +39,8 @@
   <ul class="sidenav" id="mobile-menu">
     <li><a href="/" class="yellow-text text-darken-4"><h5>drink app</h5></a></li>
     {{#if loggedIn}}
-      <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">logged in as {{loggedInUser}}</a></li>
       <li><a href="/recipe/add" class="grey-text text-darken-4">add a recipe</a></li>
+      <li><a href="/user/{{loggedInUser}}" class="grey-text text-darken-4">my account</a></li>
       <li><a href="/login" class="logout grey-text text-darken-4">log out</a></li>
     {{ else }}
       <li><a href="/login" class="grey-text text-darken-4">log in or sign up</a></li>
