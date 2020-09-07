@@ -20,6 +20,7 @@ router.get('/:recipe_id', (req, res) => {
             'recipe_name',
             'instructions',
             'image_url',
+            'created_at',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
         ],
         include: [
@@ -49,18 +50,9 @@ router.get('/:recipe_id', (req, res) => {
                 loggedInUser: req.session.username
             }
         } else {
-            const recipe = loadedRecipe.get({ plain: true })
-            const recipe_label = recipe.rating_count > 1 ? "ratings" : "rating";
             templateData = {
                 no_hero: true,
-                image_url: recipe.image_url,
-                instructions: recipe.instructions,
-                ingredients: recipe.recipe_ingredients,
-                rating: recipe.rating,
-                rating_count: recipe.rating_count,
-                recipe_id: recipe.recipe_id,
-                recipe_name: recipe.recipe_name,
-                username: recipe.User.username,
+                recipe: loadedRecipe.get({ plain: true }),
                 loggedIn: req.session.loggedIn,
                 loggedInUser: req.session.username
             }

@@ -5,21 +5,21 @@
     <div class="col s12 l6">
         <div class="card-content">
             <div >
-                <h3 class="blue-grey-text text-darken-3">{{recipe_name}}</h3>
-                <h6>by <a href="/user/{{username}}">{{username}}</a></h6>
+                <h3 class="blue-grey-text text-darken-3">{{recipe.recipe_name}}</h3>
+                <h6>by <a href="/user/{{recipe.User.username}}">{{recipe.User.username}}</a></h6>
             </div>
 
             <div class="small-margin-top">
                 <div id="rateYo"></div>
-                <p id="rating-label">{{rating_count}} {{format_plural "rating"}}</p>
+                <p id="rating-label">{{recipe.rating_count}} {{format_plural "rating"}}</p>
             </div>
 
-            {{#if ingredients}}
+            {{#if recipe.recipe_ingredients}}
             <div class="margin-top">
                 <h5 class="blue-grey-text text-darken-3">ingredients</h5>
                 <p>
                     <ul class="browser-default">
-                        {{#each ingredients}}
+                        {{#each recipe.recipe_ingredients}}
                         <li>{{ingredient_amount.amount}} {{ingredient_name}}</li>
                         {{/each}}
                     </ul>
@@ -27,15 +27,18 @@
             </div>
             {{/if}}
 
-            {{#if instructions}}
+            {{#if recipe.instructions}}
             <div class="margin-top">
                 <h5 class="blue-grey-text text-darken-3">instructions</h5>
-                <p id="instructions">{{instructions}}</p>
+                <p id="instructions">{{recipe.instructions}}</p>
             </div>
             {{/if}}
 
+            {{#if recipe.created_at}}
             <div class="margin-top">
+                <p id="rating-label">Added on {{format_date recipe.created_at}}</p>
             </div>
+            {{/if}}
         </div>
     </div>
     <div class="col s12 l6">
@@ -52,7 +55,7 @@
 
 <div class="center-align row">
     <div class="col s12 l6">
-    <a href="/user/{{username}}" class="waves-effect waves-light btn">more recipes by {{username}}</a>
+    <a href="/user/{{recipe.User.username}}" class="waves-effect waves-light btn yellow darken-4">more recipes by {{recipe.User.username}}</a>
     </div>
     <div class="col s12 l6">
     <a href="/" class="waves-effect waves-light btn grey">View All Recipes</a>

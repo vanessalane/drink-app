@@ -65,16 +65,19 @@ nav {
     background-position: center;
     border-radius: 5px;
 }
+.card .card-content .card-title {
+    margin-bottom: 6vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card-action a{
+    margin-right: 0px !important;
+}
 .small-margin-top {
     margin-top: 2vh;
 }
 .margin-top {
     margin-top: 4vh;
-}
-.card .card-content .card-title {
-    margin-bottom: 6vh;
-    margin-left: auto;
-    margin-right: auto;
 }
 .hidden {
     display: none;
@@ -109,7 +112,6 @@ nav a:hover {
     opacity: 100%;
 }
 button {
-    /* white-space: nowrap; */
     margin: auto;
 }
 .waves-effect {

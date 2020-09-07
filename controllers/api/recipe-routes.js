@@ -40,6 +40,8 @@ router.get('/', (req, res) => {
             'recipe_name',
             'instructions',
             'image_url',
+            'created_at',
+            'updated_at',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
         ],
@@ -83,6 +85,8 @@ router.get('/:id', (req, res) => {
             'image_url',
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
+            'created_at',
+            'updated_at'
         ],
         include: [
             {
