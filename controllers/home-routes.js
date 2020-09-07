@@ -3,7 +3,23 @@ const sequelize = require('../config/connection');
 const { Recipe, User } = require('../models');
 
 router.get('/', (req, res) => {
-    Recipe.findAll()
+    Recipe.findAll({
+        attributes: [
+            'recipe_id',
+            'recipe_name',
+            'instructions',
+            'image_url',
+            'created_at',
+            'updated_at',
+            [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
+            [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
+        ],
+        order: [
+            [sequelize.literal('rating_count'), 'DESC'],
+            [sequelize.literal('rating'), 'DESC'],
+            ['updated_at', 'DESC']
+        ]
+    })
     .then(loadedRecipes => {
         let templateData;
         if (loadedRecipes.length === 0) {

@@ -45,11 +45,6 @@ router.get('/', (req, res) => {
             [sequelize.literal(`(SELECT COUNT(*) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating_count'],
             [sequelize.literal(`(SELECT AVG(rating) FROM UserRecipeRating WHERE UserRecipeRating.recipe_id = Recipe.recipe_id)`), 'rating'],
         ],
-        order: [
-            [sequelize.literal('rating_count'), 'DESC'],
-            [sequelize.literal('rating'), 'DESC'],
-            ['updated_at', 'DESC']
-        ],
         include: [
             {
                 model: User,
