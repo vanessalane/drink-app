@@ -140,19 +140,22 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// DELETE / api/user/1
-router.delete('/:id', (req, res) => {
+// DELETE /api/users/:username
+// username is a unique identifier
+router.delete('/:username', (req, res) => {
     User.destroy({
-        where: {
-            user_id: req.params.id
-        }
+        where: {username: req.params.username}
     })
-    .then(dbUserData => {
-        if(!dbUserData) {
-            res.statusCode(404).json({ message: 'No user found with this id' })
-            return;
+    .then(() => {
+        if (req.session.loggedIn) {
+            req.session.destroy(() => {
+                res.status(204).end();
+            });
         }
-        res.json(dbUserData);
+        else {
+            res.status(404).end();
+        }
+        res.redirect('/login')
     })
     .catch(err => {
         console.log(err);

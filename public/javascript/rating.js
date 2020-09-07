@@ -15,15 +15,14 @@ $(document).ready(() => {
             $("#rateYo").rateYo({
                 rating: currentRating,
                 precision: 2,
+                starWidth: "25px",
                 onSet: (rating, rateYoInstance) => {
-                    console.log(rating);
                     const newRating = {
                         recipe_id: recipeId,
                         user_id: userId,
                         rating
                     }
                     $.post('/api/reciperatings', newRating)
-                    .done(data => console.log({data}))
                     .catch(err => console.log(err.message))
                 }
             });
@@ -31,6 +30,7 @@ $(document).ready(() => {
         else {
             $("#rateYo").rateYo({
                 rating: currentRating,
+                starWidth: "25px",
                 readOnly: true
             });
         }
@@ -39,6 +39,7 @@ $(document).ready(() => {
         // if the rating couldn't be loaded, add a default rating of 0 and don't let anyone edit it
         $("#rateYo").rateYo({
             rating: 0,
+            starWidth: "25px",
             readOnly: true
         });
     })

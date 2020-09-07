@@ -52,8 +52,7 @@ router.get('/', (req, res) => {
                 hero_title: "drink app",
                 recipes,
                 loggedIn: req.session.loggedIn,
-                loggedInUser: req.session.username,
-                scroll_top_button: true
+                loggedInUser: req.session.username
             };
         }
         res.render('homepage', templateData);

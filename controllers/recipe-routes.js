@@ -47,7 +47,8 @@ router.get('/:recipe_id', (req, res) => {
                 include_homepage_button: true,
                 error: "Sorry, this recipe couldn't be loaded.",
                 loggedIn: req.session.loggedIn,
-                loggedInUser: req.session.username
+                loggedInUser: req.session.username,
+                belongsToUser: req.session.username === recipe.User.username
             }
         } else {
             const recipe = loadedRecipe.get({ plain: true });

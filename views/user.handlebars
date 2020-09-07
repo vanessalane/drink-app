@@ -1,5 +1,10 @@
 {{#if error}}
     {{> error_card}}
+    {{#if belongsToCurrentUser }}
+    <div class="center-align">
+        <a class="waves-effect waves-light btn red" id="delete-account-btn" data-username="{{loggedInUser}}">Delete My Account</a>
+    </div>
+    {{/if}}
 {{else}}
 <div class="body-content">
     <div class="row">
@@ -9,14 +14,16 @@
     </div>
 </div>
 
-{{#if scroll_top_button}}
 <div class="center-align">
-    <a href="#" class="waves-effect waves-light btn grey">Back to Top</a>
-</div>
-{{else}}
-<div class="center-align">
-    <a href="/" class="waves-effect waves-light btn grey">View all Recipes</a>
+    {{#if belongsToCurrentUser }}
+        <a class="waves-effect waves-light btn red" id="delete-account-btn" data-username="{{loggedInUser}}">Delete My Account</a>
+    {{/if}}
+    {{#if scroll_top_button}}
+        <a href="#" class="waves-effect waves-light btn grey">Back to Top</a>
+    {{else}}
+        <a href="/" class="waves-effect waves-light btn blue-grey">View all Recipes</a>
+    {{/if}}
 </div>
 {{/if}}
 
-{{/if}}
+<script src="/javascript/delete-account.js"></script>

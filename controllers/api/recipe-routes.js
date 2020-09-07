@@ -197,24 +197,13 @@ router.post('/', upload.single('imageFile'), async (req, res) => {
     });
 });
 
-// DELETE a recipe
+// DELETE a recipe by recipe_id
 router.delete('/:id', (req, res) => {
-    console.log("deleting");
     // delete the recipe
     Recipe.destroy({
         where: {recipe_id: req.params.id}
     })
     .then(() => {
-        // delete the corresponding rows in RecipeIngredient
-        Recipe.destroy({
-            where: {recipe_id: req.params.id}
-        })
-        .then(() => {
-            // delete the corresponding rows in UserRecipeRatings
-            Recipe.destroy({
-                where: {recipe_id: req.params.id}
-            })
-        })
         res.json({message: "Recipe deleted", recipe_id: req.params.id})
     })
     .catch(err => res.json(err))
