@@ -6,6 +6,9 @@ Deployed app: https://drink-app-dev.herokuapp.com/
 ## User Story
 **As a** cocktail enthusiast, **I want** to share, find, and discuss new cocktail recipes **so that** I can enjoy great drinks.
 
+## Screen Recording
+![Screen Recording](https://github.com/vanessalane/drink-app/blob/master/public/images/drink-app-screenrecording.gif)
+
 ## Testing
 Test helper functions with `npm jest`
 Run locally with:
